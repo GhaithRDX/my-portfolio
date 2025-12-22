@@ -28,6 +28,8 @@
                         lightSurface: '#ffffff',
                         accent: '#0ea5e9',
                         accentDark: '#0284c7',
+                        terminalBg: '#0c0c0c',
+                        terminalGreen: '#4af626',
                     },
                     fontFamily: {
                         sans: ['Space Grotesk', 'sans-serif'],
@@ -35,6 +37,13 @@
                     },
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'cursor-blink': 'blink 1s step-end infinite',
+                    },
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' },
+                        }
                     }
                 }
             }
@@ -112,23 +121,34 @@
             }
         }
 
-        /* 3. GLASSMORPHISM */
+        /* 3. GLASSMORPHISM - UPDATED CONTRAST */
         .glass {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.3); /* Darker border for light mode */
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .dark .glass {
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: none;
         }
         .glass:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.3);
+            border-color: rgba(14, 165, 233, 0.5);
         }
 
-        /* 4. UTILITIES */
+        /* 4. TERMINAL STYLES */
+        #terminal-modal {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .terminal-text-shadow {
+            text-shadow: 0 0 5px rgba(74, 246, 38, 0.5);
+        }
+
+        /* 5. UTILITIES */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -148,25 +168,18 @@
         }
 
         /* MODAL ANIMATIONS */
-        #project-modal {
+        #project-modal, #terminal-modal {
             transition: opacity 0.3s ease;
         }
-        #project-modal.hidden {
+        .hidden-modal {
             opacity: 0;
             pointer-events: none;
+            display: none;
         }
-        #project-modal:not(.hidden) {
+        .flex-modal {
             opacity: 1;
             pointer-events: auto;
-        }
-        #modal-content {
-            transition: transform 0.3s ease;
-        }
-        #project-modal.hidden #modal-content {
-            transform: scale(0.95);
-        }
-        #project-modal:not(.hidden) #modal-content {
-            transform: scale(1);
+            display: flex;
         }
         
         /* MOBILE MENU ANIMATION */
@@ -204,6 +217,10 @@
             </div>
 
             <div class="flex items-center gap-4 z-50 relative">
+                <button id="terminal-toggle" title="Open Terminal (Ctrl+K)" class="w-10 h-10 rounded-md border border-gray-300 dark:border-white/10 flex items-center justify-center hover:bg-black hover:text-green-500 hover:border-green-500 transition-all interactive bg-white/50 dark:bg-black/20 group">
+                    <i class="fas fa-terminal text-sm"></i>
+                </button>
+
                 <button id="theme-toggle" class="w-10 h-10 rounded-full border border-gray-300 dark:border-white/10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/5 transition-all interactive bg-white/50 dark:bg-black/20">
                     <i class="fas fa-moon text-slate-600 dark:hidden"></i>
                     <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
@@ -226,6 +243,32 @@
         <a href="#experience" class="mobile-link text-2xl font-bold uppercase tracking-widest hover:text-accent transition-colors">History</a>
         <a href="#projects" class="mobile-link text-2xl font-bold uppercase tracking-widest hover:text-accent transition-colors">Work</a>
         <a href="#contact" class="mobile-link text-2xl font-bold uppercase tracking-widest text-accent hover:text-accentDark transition-colors">Hire Me</a>
+    </div>
+
+    <div id="terminal-modal" class="hidden-modal fixed inset-0 z-[200] items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleTerminal()"></div>
+        <div class="relative w-full max-w-2xl bg-terminalBg rounded-lg border border-gray-700 shadow-2xl overflow-hidden flex flex-col h-[500px]">
+            <div class="bg-gray-900 px-4 py-2 flex items-center justify-between border-b border-gray-800">
+                <div class="flex gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500 cursor-pointer" onclick="toggleTerminal()"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-gray-400 text-xs font-mono">ghaith@portfolio: ~</div>
+                <div></div>
+            </div>
+            <div id="terminal-output" class="flex-1 p-4 overflow-y-auto text-sm text-gray-300 font-mono space-y-2" style="scroll-behavior: smooth;">
+                <div class="mb-4">
+                    <span class="text-terminalGreen">Welcome to Ghaith's Interactive Terminal v1.0.0</span><br>
+                    Type <span class="text-white bg-white/20 px-1 rounded">'help'</span> to see available commands.
+                </div>
+            </div>
+            <div class="p-4 bg-black/50 border-t border-gray-800 flex items-center gap-2">
+                <span class="text-terminalGreen font-bold">➜</span>
+                <span class="text-blue-400 font-bold">~</span>
+                <input type="text" id="terminal-input" class="flex-1 bg-transparent border-none outline-none text-gray-100 font-mono placeholder-gray-600" placeholder="Type a command..." autocomplete="off" spellcheck="false">
+            </div>
+        </div>
     </div>
 
     <section class="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden" id="about">
@@ -282,7 +325,48 @@
             </div>
         </div>
     </section>
+	<section class="py-20 px-4">
+		<div class="max-w-6xl mx-auto">
+			<h2 class="text-4xl font-bold mb-16 text-center reveal">
+				<span class="text-accent text-2xl font-mono">01.5</span> Architecture
+			</h2>
+			
+			<div class="relative w-full max-w-4xl mx-auto h-[400px] border border-slate-700 rounded-xl bg-slate-900/50 p-8 reveal">
+				<div class="absolute inset-0 flex items-center justify-center">
+					<div class="grid grid-cols-3 gap-8 items-center text-center">
+						
+						<div class="glass p-4 rounded text-xs font-mono">
+							<i class="fas fa-laptop mb-2 text-2xl"></i><br>Client
+						</div>
 
+						<div class="text-accent animate-pulse">➜ <span class="text-xs">HTTPS</span> ➜</div>
+
+						<div class="glass p-4 rounded text-xs font-mono border-accent">
+							<i class="fas fa-server mb-2 text-2xl text-accent"></i><br>Nginx / Gateway
+						</div>
+
+						<div class="col-span-3 h-8 border-l-2 border-r-2 border-slate-600 rounded-b-xl mx-20"></div>
+
+						<div class="glass p-4 rounded text-xs font-mono border-green-500">
+							<i class="fab fa-python mb-2 text-2xl text-green-500"></i><br>Django API
+						</div>
+
+						<div class="glass p-4 rounded text-xs font-mono border-yellow-500">
+							<i class="fas fa-bolt mb-2 text-2xl text-yellow-500"></i><br>Celery Workers
+						</div>
+
+						<div class="glass p-4 rounded text-xs font-mono border-blue-500">
+							<i class="fas fa-database mb-2 text-2xl text-blue-500"></i><br>PostgreSQL + Redis
+						</div>
+					</div>
+				</div>
+				
+				<p class="absolute bottom-4 left-0 w-full text-center text-slate-500 text-sm">
+					Standard scalable architecture I deploy for high-traffic clients.
+				</p>
+			</div>
+		</div>
+	</section>
     <section id="experience" class="py-32 px-4 relative">
         <div class="max-w-5xl mx-auto relative">
             <h2 class="text-4xl font-bold mb-24 text-center reveal">
@@ -344,7 +428,7 @@
         <p>Engineered by Ghaith Alali © 2025</p>
     </footer>
 
-    <div id="project-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+    <div id="project-modal" class="hidden-modal fixed inset-0 z-[100] items-center justify-center p-4">
         <div id="modal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
         
         <div id="modal-content" class="relative bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 flex flex-col">
@@ -476,7 +560,7 @@
                 },
                 {
                     title: "Weather Predictor",
-                    desc: "Write here the I’ve built a Python program that predicts temperature trends using real historical data from the Daily Delhi Climate dataset.",
+                    desc: "I’ve built a Python program that predicts temperature trends using real historical data from the Daily Delhi Climate dataset.",
                     tech: ["Python", "Data Analysis","Machine learning","Django"],
                     link: "https://github.com/GhaithRDX/Weather-predictor",
                     image: "assets/project-weather.webp"
@@ -538,13 +622,13 @@
             });
         }
 
-        // 3. CURSOR TRAIL
+        // 3. CURSOR TRAIL (UPDATED)
         function initCursor() {
             const cursorHead = document.getElementById('cursor-head');
             if(!cursorHead) return;
 
-            // Simple check to disable custom cursor on touch devices to improve performance
-            if (window.matchMedia("(hover: none)").matches) return;
+            // PERFORMANCE FIX: Disable completely on touch/mobile devices
+            if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
 
             const trailLength = 12;
             const dots = [];
@@ -559,6 +643,8 @@
             }
 
             let mouseX = 0, mouseY = 0;
+            
+            // Only add listener if not mobile
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
@@ -718,7 +804,7 @@
                 `;
             });
 
-            // Projects - UPDATED TO BE CLICKABLE FOR MODAL
+            // Projects
             const projContainer = document.getElementById('projects-container');
             data.projects.forEach((proj, index) => {
                 projContainer.innerHTML += `
@@ -772,39 +858,108 @@
             const project = data.projects[index];
             const modal = document.getElementById('project-modal');
             
-            // Populate Data
             document.getElementById('modal-img').src = project.image;
             document.getElementById('modal-title').textContent = project.title;
             document.getElementById('modal-desc').textContent = project.desc;
             document.getElementById('modal-link').href = project.link;
             
-            // Populate Tags
             const tagsContainer = document.getElementById('modal-tags');
             tagsContainer.innerHTML = project.tech.map(t => 
                 `<span class="text-xs font-bold text-white bg-white/20 px-2 py-1 rounded backdrop-blur-sm">#${t}</span>`
             ).join('');
 
-            // Show Modal
-            modal.classList.remove('hidden');
-            modal.classList.add('flex'); // Ensure it uses flexbox to center
-            document.body.style.overflow = 'hidden'; // Stop background scrolling
+            modal.classList.remove('hidden-modal');
+            modal.classList.add('flex-modal');
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
             const modal = document.getElementById('project-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = ''; // Restore scrolling
+            modal.classList.remove('flex-modal');
+            modal.classList.add('hidden-modal');
+            document.body.style.overflow = ''; 
         }
 
-        // Close on Escape Key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
+        // 7. TERMINAL LOGIC (NEW FEATURE)
+        function initTerminal() {
+            const modal = document.getElementById('terminal-modal');
+            const toggleBtn = document.getElementById('terminal-toggle');
+            const input = document.getElementById('terminal-input');
+            const output = document.getElementById('terminal-output');
 
-        // 7. UTILS & TIMELINE SCROLL
+            function toggleTerminal() {
+                const isHidden = modal.classList.contains('hidden-modal');
+                if (isHidden) {
+                    modal.classList.remove('hidden-modal');
+                    modal.classList.add('flex-modal');
+                    input.focus();
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    modal.classList.remove('flex-modal');
+                    modal.classList.add('hidden-modal');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            toggleBtn.addEventListener('click', toggleTerminal);
+
+            // Global shortcut
+            document.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    toggleTerminal();
+                }
+                if (e.key === 'Escape') {
+                    if (!modal.classList.contains('hidden-modal')) toggleTerminal();
+                    closeModal(); // Close project modal if open
+                }
+            });
+
+            // Command Handling
+            const commands = {
+                help: "Available commands: <span class='text-white'>whoami, skills, projects, contact, clear, exit</span>",
+                whoami: "User: Ghaith Alali\nRole: Backend Architect\nLevel: 24\nStatus: Online & Ready to Code.",
+                skills: () => data.skills.map(s => `<span class="${s.color}">${s.name}</span>`).join(', '),
+                projects: () => data.projects.map(p => `• <a href="${p.link}" target="_blank" class="underline hover:text-white">${p.title}</a>`).join('\n'),
+                contact: `Email: <a href="mailto:${data.personal.email}" class="underline hover:text-white">${data.personal.email}</a>\nGitHub: ${data.personal.github}`,
+                clear: () => { output.innerHTML = ''; return ''; },
+                exit: () => { toggleTerminal(); return "Session closed."; }
+            };
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const val = input.value.trim().toLowerCase();
+                    if (!val) return;
+
+                    // Print command history
+                    const cmdLine = document.createElement('div');
+                    cmdLine.innerHTML = `<span class="text-terminalGreen">➜</span> <span class="text-blue-400">~</span> <span class="text-gray-100">${val}</span>`;
+                    output.appendChild(cmdLine);
+
+                    // Process command
+                    let response = `<span class="text-red-400">Command not found: ${val}. Type 'help'.</span>`;
+                    
+                    if (commands[val]) {
+                        response = typeof commands[val] === 'function' ? commands[val]() : commands[val];
+                    }
+
+                    if (response) {
+                        const respLine = document.createElement('div');
+                        respLine.innerHTML = response;
+                        respLine.className = 'mb-4 text-gray-300';
+                        output.appendChild(respLine);
+                    }
+
+                    input.value = '';
+                    output.scrollTop = output.scrollHeight;
+                }
+            });
+            
+            // Expose globally for close button
+            window.toggleTerminal = toggleTerminal;
+        }
+
+        // 8. UTILS & TIMELINE SCROLL
         function initTypewriter() {
             const el = document.getElementById('typing-text');
             const roles = data.personal.roles;
@@ -850,6 +1005,7 @@
             initCanvas();
             initTypewriter();
             initScrollAnimations();
+            initTerminal(); // Initialize Terminal
         });
     </script>
 </body>
