@@ -326,47 +326,143 @@
         </div>
     </section>
 	<section class="py-20 px-4">
-		<div class="max-w-6xl mx-auto">
-			<h2 class="text-4xl font-bold mb-16 text-center reveal">
-				<span class="text-accent text-2xl font-mono">01.5</span> Architecture
-			</h2>
-			
-			<div class="relative w-full max-w-4xl mx-auto h-[400px] border border-slate-700 rounded-xl bg-slate-900/50 p-8 reveal">
-				<div class="absolute inset-0 flex items-center justify-center">
-					<div class="grid grid-cols-3 gap-8 items-center text-center">
-						
-						<div class="glass p-4 rounded text-xs font-mono">
-							<i class="fas fa-laptop mb-2 text-2xl"></i><br>Client
-						</div>
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold mb-16 text-center reveal">
+                <span class="text-accent text-2xl font-mono">01.5</span> System Architecture
+            </h2>
+            
+            <div class="relative w-full max-w-5xl mx-auto min-h-[500px] border border-slate-700 rounded-xl bg-slate-900/50 p-4 md:p-12 reveal overflow-hidden">
+                <div class="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
-						<div class="text-accent animate-pulse">➜ <span class="text-xs">HTTPS</span> ➜</div>
+                <div class="relative z-10 flex flex-col items-center gap-12">
+                    
+                    <div class="relative group">
+                        <div class="glass p-4 rounded-xl text-center w-40 border-slate-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                            <i class="fas fa-laptop text-2xl mb-2 text-white"></i>
+                            <div class="font-mono text-xs text-slate-300">Client</div>
+                        </div>
+                        <div class="absolute left-1/2 -bottom-12 w-[2px] h-12 bg-slate-700 overflow-hidden">
+                            <div class="w-full h-full bg-accent animate-[movedown_1.5s_linear_infinite]"></div>
+                        </div>
+                    </div>
 
-						<div class="glass p-4 rounded text-xs font-mono border-accent">
-							<i class="fas fa-server mb-2 text-2xl text-accent"></i><br>Nginx / Gateway
-						</div>
+                    <div class="relative group">
+                        <div class="glass p-4 rounded-xl text-center w-48 border-accent shadow-[0_0_20px_rgba(14,165,233,0.2)] animate-pulse-slow">
+                            <i class="fas fa-network-wired text-2xl mb-2 text-accent"></i>
+                            <div class="font-bold text-white">Nginx Gateway</div>
+                            <div class="font-mono text-xs text-accent">Load Balancer</div>
+                        </div>
+                        <div class="absolute left-1/2 -bottom-12 w-[2px] h-12 bg-slate-700 overflow-hidden">
+                            <div class="w-full h-full bg-accent animate-[movedown_1.5s_linear_infinite]"></div>
+                        </div>
+                        <div class="hidden md:block absolute top-[130%] left-1/2 -translate-x-1/2 w-[60%] h-[2px] bg-slate-700"></div>
+                    </div>
 
-						<div class="col-span-3 h-8 border-l-2 border-r-2 border-slate-600 rounded-b-xl mx-20"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 w-full">
+                        
+                        <div class="relative flex flex-col items-center">
+                            <div class="hidden md:block absolute -top-12 left-1/2 w-[2px] h-12 bg-slate-700 overflow-hidden">
+                                <div class="w-full h-full bg-green-500 animate-[movedown_2s_linear_infinite]"></div>
+                            </div>
+                            <div class="glass p-5 rounded-xl text-center w-full border-green-500/50 hover:border-green-500 transition-all">
+                                <i class="fab fa-python text-3xl mb-2 text-green-500"></i>
+                                <div class="font-bold text-white">Django API</div>
+                                <div class="text-xs text-slate-400 mt-1">Gunicorn / WSGI</div>
+                            </div>
+                        </div>
 
-						<div class="glass p-4 rounded text-xs font-mono border-green-500">
-							<i class="fab fa-python mb-2 text-2xl text-green-500"></i><br>Django API
-						</div>
+                        <div class="relative flex flex-col items-center">
+                            <div class="hidden md:block absolute -top-12 left-1/2 w-[2px] h-12 bg-slate-700 overflow-hidden">
+                                <div class="w-full h-full bg-yellow-500 animate-[movedown_2s_linear_infinite_0.5s]"></div>
+                            </div>
+                            <div class="glass p-5 rounded-xl text-center w-full border-yellow-500/50 hover:border-yellow-500 transition-all">
+                                <i class="fas fa-bolt text-3xl mb-2 text-yellow-500"></i>
+                                <div class="font-bold text-white">Celery Workers</div>
+                                <div class="text-xs text-slate-400 mt-1">Async Tasks</div>
+                            </div>
+                        </div>
 
-						<div class="glass p-4 rounded text-xs font-mono border-yellow-500">
-							<i class="fas fa-bolt mb-2 text-2xl text-yellow-500"></i><br>Celery Workers
-						</div>
+                        <div class="relative flex flex-col items-center">
+                            <div class="hidden md:block absolute -top-12 left-1/2 w-[2px] h-12 bg-slate-700 overflow-hidden">
+                                <div class="w-full h-full bg-blue-500 animate-[movedown_2s_linear_infinite_1s]"></div>
+                            </div>
+                            <div class="glass p-5 rounded-xl text-center w-full border-blue-500/50 hover:border-blue-500 transition-all">
+                                <i class="fas fa-database text-3xl mb-2 text-blue-500"></i>
+                                <div class="font-bold text-white">Postgres + Redis</div>
+                                <div class="text-xs text-slate-400 mt-1">Persistence & Cache</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="absolute bottom-4 right-4 font-mono text-xs text-slate-600">
+                    * Live Traffic Visualization
+                </p>
+            </div>
+            
+            <style>
+                @keyframes movedown {
+                    0% { transform: translateY(-100%); opacity: 0; }
+                    50% { opacity: 1; }
+                    100% { transform: translateY(100%); opacity: 0; }
+                }
+            </style>
+        </div>
+    </section>
+	<section id="services" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold mb-16 text-center reveal">
+                <span class="text-accent text-2xl font-mono">01.8</span> Services
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-2xl border-t-4 border-blue-500 hover:-translate-y-2 transition-transform reveal">
+                    <div class="w-14 h-14 bg-blue-500/20 rounded-lg flex items-center justify-center mb-6 text-blue-500">
+                        <i class="fas fa-rocket text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">MVP Development</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        Turn your startup idea into a deployed product. I build the entire backend, API, and database structure from scratch.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Django/FastAPI Setup</li>
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Database Design</li>
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Deployment (VPS/AWS)</li>
+                    </ul>
+                </div>
 
-						<div class="glass p-4 rounded text-xs font-mono border-blue-500">
-							<i class="fas fa-database mb-2 text-2xl text-blue-500"></i><br>PostgreSQL + Redis
-						</div>
-					</div>
-				</div>
-				
-				<p class="absolute bottom-4 left-0 w-full text-center text-slate-500 text-sm">
-					Standard scalable architecture I deploy for high-traffic clients.
-				</p>
-			</div>
-		</div>
-	</section>
+                <div class="glass p-8 rounded-2xl border-t-4 border-green-500 hover:-translate-y-2 transition-transform reveal">
+                    <div class="w-14 h-14 bg-green-500/20 rounded-lg flex items-center justify-center mb-6 text-green-500">
+                        <i class="fas fa-cogs text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">API Integration</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        Connect your system to the world. I integrate Payment Gateways, Shipping APIs, and AI tools seamlessly.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Stripe / Tabby Payments</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Shipping (iMile/Vnline)</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> OpenAI / LLM Agents</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 rounded-2xl border-t-4 border-purple-500 hover:-translate-y-2 transition-transform reveal">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-lg flex items-center justify-center mb-6 text-purple-500">
+                        <i class="fas fa-tachometer-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Optimization</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        Fixing slow queries and server crashes. I optimize your backend to handle high traffic without breaking.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Celery Async Tasks</li>
+                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Redis Caching</li>
+                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Query Optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="experience" class="py-32 px-4 relative">
         <div class="max-w-5xl mx-auto relative">
             <h2 class="text-4xl font-bold mb-24 text-center reveal">
