@@ -92,27 +92,32 @@
 
         /* 2. TIMELINE DRAWING EFFECT */
         .timeline-line {
-            position: absolute;
-            left: 16px;
-            top: 0;
-            width: 2px;
-            background: #cbd5e1;
-            height: 100%;
-            z-index: 0;
-        }
-        .dark .timeline-line { background: #334155; }
+			position: absolute;
+			left: 16px;
+			/* Pushes the start down so it doesn't cross the text */
+			top: 140px; 
+			width: 2px;
+			background: #cbd5e1;
+			/* Calculates height to stop before the bottom padding */
+			height: calc(100% - 180px); 
+			z-index: 0;
+			border-radius: 4px; /* Optional: rounds the ends */
+		}
+		.dark .timeline-line { background: #334155; }
 
-        .timeline-progress {
-            position: absolute;
-            left: 16px;
-            top: 0;
-            width: 2px;
-            background: #0ea5e9;
-            height: 0%;
-            box-shadow: 0 0 15px #0ea5e9;
-            transition: height 0.1s linear;
-            z-index: 1;
-        }
+		.timeline-progress {
+			position: absolute;
+			left: 16px;
+			/* Must match the .timeline-line top value */
+			top: 140px; 
+			width: 2px;
+			background: #0ea5e9;
+			height: 0%;
+			box-shadow: 0 0 15px #0ea5e9;
+			transition: height 0.1s linear;
+			z-index: 1;
+			border-radius: 4px;
+		}
 
         @media (min-width: 768px) {
             .timeline-line, .timeline-progress { 
@@ -581,6 +586,36 @@
             </div>
         </div>
     </div>
+	<div id="cert-modal" class="hidden-modal fixed inset-0 z-[200] items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeCertModal()"></div>
+        
+        <div class="relative bg-white dark:bg-slate-900 w-full max-w-6xl h-[85vh] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 flex flex-col overflow-hidden animate-[scaleIn_0.3s_ease-out]">
+            
+            <div class="flex justify-between items-center p-4 border-b border-gray-100 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-md shrink-0">
+                <div>
+                    <h3 id="cert-modal-title" class="text-xl font-bold text-slate-800 dark:text-white"></h3>
+                    <p id="cert-modal-issuer" class="text-sm text-slate-500 dark:text-slate-400 font-mono"></p>
+                </div>
+                <button onclick="closeCertModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-white flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 bg-slate-100 dark:bg-black/80 relative flex items-center justify-center p-4 overflow-hidden">
+                
+                <iframe id="cert-iframe" class="w-full h-full hidden rounded shadow-sm" src=""></iframe>
+                
+                <img id="cert-image" class="max-w-full max-h-full object-contain shadow-2xl rounded hidden" src="" alt="Certificate">
+                
+                <div id="cert-fallback" class="absolute inset-0 flex flex-col items-center justify-center gap-4 hidden z-10">
+                    <p class="text-slate-500">Preview not available or external link</p>
+                    <a id="cert-external-link" href="#" target="_blank" class="px-6 py-2 bg-accent text-white rounded hover:bg-accentDark transition-colors">
+                        Open Certificate <i class="fas fa-external-link-alt ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // DATA
@@ -614,6 +649,14 @@
                     desc: "Leading backend for a fashion e-commerce platform. Built automated product variation algorithms, SEO feed generation for TikTok/Google, and integrated Stripe/Tabby payments.",
                     tags: ["Django", "Celery", "E-Commerce"]
                 },
+				{
+					company: "Qader",
+					role: "Python Backend Developer",
+					period: "2025 - Present",
+					location: "Remote",
+					desc: "Architected and implemented a robust backend for a large-scale educational platform. Handled complex business logic, transactional integrity, role-based permissions, and performance-critical APIs, ensuring scalability, security, and clean architecture.",
+					tags: ["Django", "Django REST Framework", "PostgreSQL", "Redis"]
+				},
                 {
                     company: "Freelance",
                     role: "Web Application Developer",
@@ -694,8 +737,27 @@
                 { degree: "Bachelor in IT Engineering", school: "Al-Baath University", year: "2019 - 2024 (GPA 84.55%)" }
             ],
             certs: [
-                { name: "ICPC Al-Baath & Hama UC", date: "2022" },
-                { name: "ICPC ACPC Kickoff", date: "2022" }
+                { 
+                    name: "ICPC ACPC Kickoff", 
+                    issuer: "ICPC Foundation",
+                    date: "June 2021", 
+                    type: "pdf", // نوع الملف
+                    url: "assets/certs/2022-ICPC ACPC Kickoff-Mr. Ghaith Alali-PLACE.pdf" // ضع مسار الملف الصحيح هنا
+                },
+                { 
+                    name: "ICPC Al-Baath & Hama Contest", 
+                    issuer: "ICPC Foundation",
+                    date: "August 2021", 
+                    type: "pdf",
+                    url: "assets/certs/2022-ICPC Al-baath&Hama UC-Mr. Ghaith Alali-PLACE.pdf" // ضع مسار الملف الصحيح هنا
+                },
+                { 
+                    name: "Python Internship", 
+                    issuer: "CompWallah",
+                    date: "April 2024", 
+                    type: "image", // إذا كانت صورة، أو "link" إذا رابط خارجي
+                    url: "assets/certs/compwallah.png" // أو رابط الصورة
+                }
             ]
         };
 
@@ -954,13 +1016,24 @@
             });
 
             const certContainer = document.getElementById('certificates-container');
-            data.certs.forEach(cert => {
+            data.certs.forEach((cert, index) => {
                 certContainer.innerHTML += `
-                    <div class="glass p-6 rounded-lg border-l-4 border-green-500 hover:bg-white/50 dark:hover:bg-white/5 transition-colors flex items-center gap-4">
-                        <i class="fas fa-award text-green-500 text-2xl"></i>
-                        <div>
-                            <h4 class="text-lg font-bold text-slate-800 dark:text-white">${cert.name}</h4>
-                            <p class="text-xs font-mono text-green-600 dark:text-green-500 mt-1">${cert.date}</p>
+                    <div onclick="openCertModal(${index})" class="glass p-6 rounded-lg border-l-4 border-green-500 hover:bg-white/50 dark:hover:bg-white/5 transition-all cursor-pointer group hover:scale-[1.02]">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 group-hover:bg-green-500 group-hover:text-white transition-colors">
+                                <i class="fas fa-award text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-green-500 transition-colors">${cert.name}</h4>
+                                <div class="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+                                    <span>${cert.issuer}</span>
+                                    <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+                                    <span class="text-green-600 dark:text-green-500">${cert.date}</span>
+                                </div>
+                            </div>
+                            <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-slate-400">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -989,6 +1062,57 @@
             modal.classList.remove('flex-modal');
             modal.classList.add('hidden-modal');
             document.body.style.overflow = ''; 
+        }
+		
+		// CERTIFICATE MODAL LOGIC
+        function openCertModal(index) {
+            const cert = data.certs[index];
+            const modal = document.getElementById('cert-modal');
+            const iframe = document.getElementById('cert-iframe');
+            const img = document.getElementById('cert-image');
+            const fallback = document.getElementById('cert-fallback');
+            const extLink = document.getElementById('cert-external-link');
+
+            // Set Content
+            document.getElementById('cert-modal-title').textContent = cert.name;
+            document.getElementById('cert-modal-issuer').textContent = cert.issuer + ' | ' + cert.date;
+
+            // Reset Views
+            iframe.classList.add('hidden');
+            img.classList.add('hidden');
+            fallback.classList.add('hidden');
+
+            // Handle Type
+            if (cert.type === 'pdf') {
+                iframe.src = cert.url;
+                iframe.classList.remove('hidden');
+            } else if (cert.type === 'image') {
+                img.src = cert.url;
+                img.classList.remove('hidden');
+            } else {
+                // Link or other
+                extLink.href = cert.url;
+                fallback.classList.remove('hidden');
+            }
+
+            modal.classList.remove('hidden-modal');
+            modal.classList.add('flex-modal');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('cert-modal');
+            const iframe = document.getElementById('cert-iframe');
+            
+            modal.classList.remove('flex-modal');
+            modal.classList.add('hidden-modal');
+            document.body.style.overflow = '';
+            
+            // Clear source to stop loading
+            setTimeout(() => {
+                iframe.src = '';
+                document.getElementById('cert-image').src = '';
+            }, 300);
         }
 
         // 7. TERMINAL LOGIC
