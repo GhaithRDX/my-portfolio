@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ghaith Alali | Backend Architect</title>
     
-    <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/000000/python.png">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -38,11 +38,23 @@
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'cursor-blink': 'blink 1s step-end infinite',
+                        'profile-glow': 'profile-pulse 3s infinite ease-in-out',
+                        'spin-slow': 'spin 10s linear infinite',
                     },
                     keyframes: {
                         blink: {
                             '0%, 100%': { opacity: '1' },
                             '50%': { opacity: '0' },
+                        },
+                        'profile-pulse': {
+                            '0%, 100%': { 
+                                boxShadow: '0 0 20px var(--glow-color, rgba(14, 165, 233, 0.3))',
+                                borderColor: 'rgba(255, 255, 255, 0.8)'
+                            },
+                            '50%': { 
+                                boxShadow: '0 0 50px var(--glow-color, rgba(14, 165, 233, 0.8)), 0 0 15px rgba(255, 255, 255, 0.5) inset',
+                                borderColor: 'var(--accent-color, #0ea5e9)'
+                            }
                         }
                     }
                 }
@@ -51,136 +63,146 @@
     </script>
 
     <style>
+        /* --- CSS VARIABLES FOR DYNAMIC THEMES --- */
+        :root {
+            --accent-color: #0ea5e9;
+            --accent-hover: #0284c7;
+            --glow-color: rgba(14, 165, 233, 0.5);
+            --cursor-color: #0ea5e9;
+            --text-body: #475569; /* Slate-600 */
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --border-glass: rgba(148, 163, 184, 0.3);
+        }
+
+        /* DARK MODE VARS */
+        html.dark:not(.hacker) {
+            --text-body: #94a3b8; /* Slate-400 */
+            --bg-glass: rgba(30, 41, 59, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.05);
+        }
+
+        /* HACKER THEME (UI/UX OPTIMIZED) */
+        html.hacker {
+            --accent-color: #ef4444; /* Red-500 */
+            --accent-hover: #dc2626; /* Red-600 */
+            --glow-color: rgba(239, 68, 68, 0.3);
+            --cursor-color: #ef4444;
+            --text-body: #d1d5db; /* Gray-300 (Readable Silver) */
+            --bg-glass: rgba(5, 5, 5, 0.85); /* Deep Black Transparent */
+            --border-glass: rgba(239, 68, 68, 0.15); /* Subtle Red Border */
+        }
+
+        html.hacker body {
+            background-color: #020202;
+            color: #ffffff;
+        }
+
+        /* FORCED OVERRIDES FOR HACKER MODE */
+        html.hacker .text-accent { color: var(--accent-color) !important; }
+        html.hacker .bg-accent { background-color: var(--accent-color) !important; }
+        html.hacker .border-accent { border-color: var(--accent-color) !important; }
+        html.hacker .hover\:bg-accent:hover { background-color: #dc2626 !important; } /* Darker Red Hover */
+        html.hacker .hover\:text-accent:hover { color: #dc2626 !important; }
+
+        /* Prevent Selection Highlight on Interactive Cards */
+        .select-none { user-select: none; -webkit-user-select: none; }
+
         /* CORE STYLES */
         body {
             cursor: none; 
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* 1. COMET TAIL CURSOR */
-        .cursor-trail {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background-color: #0ea5e9;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            mix-blend-mode: difference;
-            transition: transform 0.1s;
-        }
-        .trail-dot {
-            position: fixed;
-            border-radius: 50%;
-            background-color: #0ea5e9;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.6;
-            transition: opacity 0.5s ease;
-        }
-        body.hovering .cursor-trail {
-            transform: scale(3);
-            background-color: transparent;
-            border: 2px solid #0ea5e9;
-        }
-        /* Hide cursor on mobile/touch devices */
-        @media (hover: none) and (pointer: coarse) {
-            body { cursor: auto; }
-            .cursor-trail, .trail-dot { display: none; }
-        }
-
-        /* 2. TIMELINE DRAWING EFFECT */
-        .timeline-line {
-			position: absolute;
-			left: 16px;
-			/* Pushes the start down so it doesn't cross the text */
-			top: 140px; 
-			width: 2px;
-			background: #cbd5e1;
-			/* Calculates height to stop before the bottom padding */
-			height: calc(100% - 180px); 
-			z-index: 0;
-			border-radius: 4px; /* Optional: rounds the ends */
-		}
-		.dark .timeline-line { background: #334155; }
-
-		.timeline-progress {
-			position: absolute;
-			left: 16px;
-			/* Must match the .timeline-line top value */
-			top: 140px; 
-			width: 2px;
-			background: #0ea5e9;
-			height: 0%;
-			box-shadow: 0 0 15px #0ea5e9;
-			transition: height 0.1s linear;
-			z-index: 1;
-			border-radius: 4px;
-		}
-
-        @media (min-width: 768px) {
-            .timeline-line, .timeline-progress { 
-                left: 50%; 
-                transform: translateX(-50%); 
-            }
-        }
-
-        /* 3. GLASSMORPHISM */
+        /* 1. GLASSMORPHISM (Card Style) */
         .glass {
-            background: rgba(255, 255, 255, 0.8);
+            background: var(--bg-glass);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(148, 163, 184, 0.3);
+            border: 1px solid var(--border-glass);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        .dark .glass {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: none;
+        
+        /* Light/Dark Shadows */
+        html:not(.dark) .glass { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        
+        /* Hacker Hover Effects */
+        html.hacker .glass:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 25px -5px var(--glow-color);
+            background: rgba(20, 0, 0, 0.9);
         }
-        .glass:hover {
+        
+        /* Standard Hover Effects */
+        html:not(.hacker) .glass:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.3);
-            border-color: rgba(14, 165, 233, 0.5);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px -10px var(--glow-color);
         }
 
-        /* 4. TERMINAL STYLES */
-        #terminal-modal {
-            font-family: 'JetBrains Mono', monospace;
+        /* 2. TEXT READABILITY FIX */
+        /* In Hacker mode, force paragraphs to be gray, not red/white */
+        html.hacker p, html.hacker li {
+            color: var(--text-body) !important;
+        }
+        html.hacker h1, html.hacker h2, html.hacker h3, html.hacker h4 {
+            color: #ffffff; /* Headings White */
+        }
+        html.hacker h1 span, html.hacker h2 span {
+            color: var(--accent-color); /* Spans keep accent */
         }
 
-        /* 5. UTILITIES */
+        /* 3. CURSOR & SCROLLBAR */
+        .cursor-trail {
+            position: fixed; width: 8px; height: 8px;
+            background-color: var(--cursor-color);
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            mix-blend-mode: difference; transition: transform 0.1s;
+        }
+        html.hacker .cursor-trail { mix-blend-mode: normal; box-shadow: 0 0 8px var(--accent-color); }
+        .trail-dot {
+            position: fixed; border-radius: 50%;
+            background-color: var(--cursor-color);
+            pointer-events: none; z-index: 9999; opacity: 0.6;
+        }
+        
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; }
-        ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
-        
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        html.hacker ::-webkit-scrollbar-thumb { background: #450a0a; } /* Dark Red Scrollbar */
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
+
+        /* 4. TIMELINE */
+        .timeline-line {
+			position: absolute; left: 16px; top: 140px; width: 2px;
+			background: #cbd5e1; height: auto; bottom: 100px; z-index: 0; border-radius: 4px; 
+		}
+		.dark .timeline-line { background: #334155; }
+        html.hacker .timeline-line { background: #331111; }
+		.timeline-progress {
+			position: absolute; left: 16px; top: 140px; width: 2px;
+			background: var(--accent-color); height: 0%;
+			box-shadow: 0 0 15px var(--accent-color);
+			transition: height 0.1s linear; z-index: 1; border-radius: 4px;
+            max-height: calc(100% - 240px); 
+		}
+        @media (min-width: 768px) {
+            .timeline-line, .timeline-progress { left: 50%; transform: translateX(-50%); }
         }
 
-        /* ANIMATIONS */
-        #project-modal, #terminal-modal { transition: opacity 0.3s ease; }
+        /* ANIMATIONS & UTILS */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .hidden-modal { opacity: 0; pointer-events: none; display: none; }
         .flex-modal { opacity: 1; pointer-events: auto; display: flex; }
-        
         #mobile-menu { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         #mobile-menu.closed { transform: translateX(100%); opacity: 0; pointer-events: none; }
         #mobile-menu.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
-
-        @keyframes flow {
-            0% { stroke-dashoffset: 24; }
-            100% { stroke-dashoffset: 0; }
+        
+        @media (hover: none) and (pointer: coarse) {
+            body { cursor: auto; }
+            .cursor-trail, .trail-dot { display: none; }
         }
     </style>
 </head>
@@ -191,8 +213,12 @@
 
     <nav class="fixed w-full z-50 backdrop-blur-md border-b border-gray-200/50 dark:border-white/5 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="text-2xl font-bold font-mono interactive group z-50 relative">
-                <span class="text-accent group-hover:text-accentDark">&lt;</span>Ghaith<span class="text-accent group-hover:text-accentDark">/&gt;</span>
+            <a href="#" class="text-2xl font-bold font-mono interactive group z-50 relative select-none flex items-center">
+                <svg class="w-10 h-10 mr-2 text-accent group-hover:text-accentDark transition-colors" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M65 35.5C61.5 32 56.5 30 51 30C40.5 30 32 38.5 32 49C32 59.5 40.5 68 51 68C58.5 68 64.5 63.5 67.5 57L51 57V46H79.5V49C79.5 65.5 66.5 79 50 79C33.5 79 20 65.5 20 49C20 32.5 33.5 19 50 19C60 19 69 23.5 75 31L65 35.5Z" fill="currentColor"/>
+                    <circle class="animate-spin-slow group-hover:animate-spin" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="4" stroke-dasharray="20 10" />
+                </svg>
+                Ghaith
             </a>
             
             <div class="hidden md:flex space-x-8">
@@ -204,24 +230,15 @@
             </div>
 
             <div class="flex items-center gap-4 z-50 relative">
-                <div class="relative group">
-                    <button id="terminal-toggle" class="w-10 h-10 rounded-md border border-gray-300 dark:border-white/10 flex items-center justify-center hover:bg-black hover:text-green-500 hover:border-green-500 transition-all interactive bg-white/50 dark:bg-black/20">
-                        <i class="fas fa-terminal text-sm"></i>
-                    </button>
-                    <div class="absolute -bottom-10 right-0 hidden group-hover:block bg-slate-900 text-white text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap border border-slate-700 z-50">
-                        Interactive Terminal (Ctrl+K)
-                    </div>
-                </div>
-
-                <button id="theme-toggle" class="w-10 h-10 rounded-full border border-gray-300 dark:border-white/10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/5 transition-all interactive bg-white/50 dark:bg-black/20">
-                    <i class="fas fa-moon text-slate-600 dark:hidden"></i>
-                    <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
+                <button id="terminal-toggle" class="w-10 h-10 rounded-md border border-gray-300 dark:border-white/10 flex items-center justify-center hover:bg-black hover:text-green-500 hover:border-green-500 transition-all interactive bg-white/50 dark:bg-black/20">
+                    <i class="fas fa-terminal text-sm"></i>
                 </button>
-                
+                <button id="theme-toggle" class="w-10 h-10 rounded-full border border-gray-300 dark:border-white/10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/5 transition-all interactive bg-white/50 dark:bg-black/20">
+                    <i id="theme-icon" class="fas fa-moon text-slate-600"></i>
+                </button>
                 <a href="#contact" class="hidden md:flex px-6 py-2 bg-accent text-white rounded hover:bg-accentDark transition-all interactive font-bold text-sm items-center gap-2 shadow-lg shadow-accent/20">
                     <span>HIRE ME</span>
                 </a>
-
                 <button id="mobile-menu-btn" class="md:hidden text-2xl text-slate-600 dark:text-slate-200 focus:outline-none interactive w-10 h-10 flex items-center justify-center">
                     <i class="fas fa-bars transition-transform duration-300"></i>
                 </button>
@@ -233,7 +250,6 @@
         <a href="#about" class="mobile-link text-2xl font-bold uppercase tracking-widest hover:text-accent transition-colors">About</a>
         <a href="#architecture" class="mobile-link text-2xl font-bold uppercase tracking-widest hover:text-accent transition-colors">Architecture</a>
         <a href="#services" class="mobile-link text-2xl font-bold uppercase tracking-widest hover:text-accent transition-colors">Services</a>
-        <a href="#experience" class="mobile-link text-2xl font-bold uppercase tracking-widest hover:text-accent transition-colors">History</a>
         <a href="#projects" class="mobile-link text-2xl font-bold uppercase tracking-widest hover:text-accent transition-colors">Work</a>
         <a href="#contact" class="mobile-link text-2xl font-bold uppercase tracking-widest text-accent hover:text-accentDark transition-colors">Hire Me</a>
     </div>
@@ -250,16 +266,12 @@
                 <div class="text-gray-400 text-xs font-mono">ghaith@portfolio: ~</div>
                 <div></div>
             </div>
-            <div id="terminal-output" class="flex-1 p-4 overflow-y-auto text-sm text-gray-300 font-mono space-y-2" style="scroll-behavior: smooth;">
-                <div class="mb-4">
-                    <span class="text-terminalGreen">Welcome to Ghaith's Interactive Terminal v1.0.0</span><br>
-                    Type <span class="text-white bg-white/20 px-1 rounded">'help'</span> to see commands.
-                </div>
+            <div id="terminal-output" class="flex-1 p-4 overflow-y-auto text-sm text-gray-300 font-mono space-y-2">
+                <div class="mb-4"><span class="text-terminalGreen">Welcome to Ghaith's Interactive Terminal v1.0.0</span><br>Type 'help'.</div>
             </div>
             <div class="p-4 bg-black/50 border-t border-gray-800 flex items-center gap-2">
-                <span class="text-terminalGreen font-bold">➜</span>
-                <span class="text-blue-400 font-bold">~</span>
-                <input type="text" id="terminal-input" class="flex-1 bg-transparent border-none outline-none text-gray-100 font-mono placeholder-gray-600" placeholder="Type a command..." autocomplete="off" spellcheck="false">
+                <span class="text-terminalGreen font-bold">➜</span><span class="text-blue-400 font-bold">~</span>
+                <input type="text" id="terminal-input" class="flex-1 bg-transparent border-none outline-none text-gray-100 font-mono" placeholder="Type a command..." autocomplete="off">
             </div>
         </div>
     </div>
@@ -268,46 +280,37 @@
         <div class="text-center z-10 px-4 max-w-5xl mx-auto">
             <div class="mb-8 relative inline-block group">
                 <div class="absolute inset-0 bg-accent rounded-full blur-3xl opacity-20 animate-pulse-slow"></div>
-                <img id="hero-image" src="" alt="Profile" class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-white/10 shadow-2xl">
+                <img id="hero-image" src="" alt="Profile" class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-white/10 shadow-2xl animate-profile-glow select-none">
             </div>
             
             <h2 class="text-accent font-mono text-lg tracking-[0.2em] mb-4 reveal">BACKEND ARCHITECT</h2>
             
-            <h1 class="text-6xl md:text-8xl font-bold mb-6 tracking-tighter reveal interactive" id="hero-name">
-                GHAITH ALALI
-            </h1>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 tracking-tighter reveal interactive" id="hero-name">GHAITH ALALI</h1>
             
             <div class="h-8 mb-10 reveal text-xl md:text-2xl font-light">
                 Building <span id="typing-text" class="font-mono text-accent font-bold border-b-2 border-accent"></span>
             </div>
 
             <div class="mb-12 reveal">
-                <div class="inline-flex flex-wrap justify-center gap-4 md:gap-8 bg-white/50 dark:bg-white/5 backdrop-blur-md px-8 py-4 rounded-full border border-gray-200 dark:border-white/10 shadow-lg">
+                <div class="glass inline-flex flex-wrap justify-center gap-4 md:gap-8 px-8 py-4 rounded-full shadow-lg">
                     <div class="flex items-center gap-2 text-sm font-mono text-slate-700 dark:text-slate-300">
-                        <i class="fas fa-bolt text-yellow-500"></i>
-                        <span>High-Throughput Feeds</span>
+                        <i class="fas fa-bolt text-yellow-500"></i><span>High-Throughput</span>
                     </div>
                     <div class="w-px h-4 bg-gray-300 dark:bg-gray-600 hidden md:block"></div>
                     <div class="flex items-center gap-2 text-sm font-mono text-slate-700 dark:text-slate-300">
-                        <i class="fas fa-shield-alt text-green-500"></i>
-                        <span>Secure Payments</span>
+                        <i class="fas fa-shield-alt text-green-500"></i><span>Secure Payments</span>
                     </div>
                     <div class="w-px h-4 bg-gray-300 dark:bg-gray-600 hidden md:block"></div>
                     <div class="flex items-center gap-2 text-sm font-mono text-slate-700 dark:text-slate-300">
-                        <i class="fas fa-robot text-accent"></i>
-                        <span>AI Automation</span>
+                        <i class="fas fa-robot text-accent"></i><span>AI Agents</span>
                     </div>
                 </div>
             </div>
             
             <div class="flex flex-col md:flex-row justify-center gap-6 reveal">
-                <a href="#projects" class="px-8 py-4 bg-accent text-white font-bold rounded hover:bg-accentDark transition-all transform hover:-translate-y-1 interactive shadow-lg hover:shadow-accent/50">
-                    View Projects
-                </a>
-                
-                <a href="assets/resume.pdf" download="Ghaith_Alali_CV" class="px-8 py-4 border border-slate-300 dark:border-white/20 rounded hover:border-accent hover:text-accent transition-all interactive backdrop-blur-sm bg-white/10 dark:bg-black/10 flex items-center justify-center gap-2 group">
-                    <span>Download CV</span>
-                    <i class="fas fa-file-download group-hover:animate-bounce"></i>
+                <a href="#projects" class="px-8 py-4 bg-accent text-white font-bold rounded hover:bg-accentDark transition-all transform hover:-translate-y-1 interactive shadow-lg">View Projects</a>
+                <a href="assets/resume.pdf" download class="px-8 py-4 border border-slate-300 dark:border-white/20 rounded hover:border-accent hover:text-accent transition-all interactive backdrop-blur-sm bg-white/10 dark:bg-black/10 flex items-center justify-center gap-2 group">
+                    <span>Download CV</span><i class="fas fa-file-download group-hover:animate-bounce"></i>
                 </a>
             </div>
 
@@ -317,10 +320,9 @@
                 <a id="link-email" href="#" class="text-slate-500 hover:text-red-500 hover:scale-110 transition-all interactive"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
-        
         <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
-            <span class="text-xs font-mono tracking-widest">SCROLL</span>
-            <div class="w-[1px] h-8 bg-current"></div>
+            <span class="text-xs font-mono tracking-widest text-slate-500">SCROLL</span>
+            <div class="w-[1px] h-8 bg-slate-500"></div>
         </div>
     </section>
 
@@ -329,8 +331,7 @@
             <h2 class="text-4xl font-bold mb-16 text-center reveal">
                 <span class="text-accent text-2xl font-mono">01.</span> Tech Stack
             </h2>
-            <div id="skills-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            </div>
+            <div id="skills-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
         </div>
     </section>
 
@@ -348,34 +349,31 @@
             <div class="relative w-full border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/50 p-4 md:p-12 reveal overflow-hidden shadow-xl">
                 <div class="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
-                <div class="relative z-10 flex flex-col items-center">
+                <div class="relative z-10 flex flex-col items-center select-none">
                     
                     <div class="flex flex-col items-center w-full">
-                        <div class="glass p-3 md:p-4 rounded-xl text-center w-36 md:w-40 border-slate-300 dark:border-slate-500 shadow-lg bg-white dark:bg-slate-800 z-20">
+                        <div class="glass p-3 md:p-4 rounded-xl text-center w-36 md:w-40 z-20">
                             <i class="fas fa-users text-xl md:text-2xl mb-2 text-slate-700 dark:text-white"></i>
-                            <div class="font-mono text-xs text-slate-500 dark:text-slate-300">Clients</div>
+                            <div class="font-mono text-xs text-slate-500 dark:text-slate-400">Clients</div>
                         </div>
-                        
                         <div class="h-8 md:h-12 w-0.5 bg-slate-300 dark:bg-slate-600 relative overflow-hidden">
                              <div class="absolute top-0 left-0 w-full h-full bg-accent animate-[movedown_1.5s_linear_infinite]"></div>
                         </div>
-
-                        <div class="glass p-3 md:p-4 rounded-xl text-center w-48 md:w-48 border-accent shadow-md bg-white dark:bg-slate-800 z-20">
+                        
+                        <div class="glass p-4 rounded-xl text-center w-48 md:w-56 border-accent z-20 hover:scale-105 transition-transform">
                             <i class="fas fa-server text-xl md:text-2xl mb-2 text-accent"></i>
                             <div class="font-bold text-slate-800 dark:text-white text-sm">Nginx / Gateway</div>
                             <div class="font-mono text-[10px] text-accent">SSL Termination</div>
                         </div>
-                        
                         <div class="h-8 md:h-12 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
                     </div>
 
                     <div class="relative w-full max-w-4xl">
                         <div class="hidden md:block absolute top-1/2 left-20 right-20 h-0.5 bg-slate-300 dark:bg-slate-600 -z-10 transform -translate-y-1/2"></div>
-
                         <div class="flex flex-col md:grid md:grid-cols-3 gap-6 md:gap-8 items-center">
                             
                             <div class="order-first md:order-none flex flex-col items-center w-full">
-                                <div class="glass p-5 md:p-6 rounded-2xl text-center w-full max-w-[280px] border-2 border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.15)] bg-white dark:bg-slate-800 z-20 md:transform md:scale-110">
+                                <div class="glass p-5 md:p-6 rounded-2xl text-center w-full max-w-[280px] border-green-500/50 z-20 md:transform md:scale-110">
                                     <i class="fab fa-python text-3xl md:text-4xl mb-3 text-green-500"></i>
                                     <div class="font-bold text-slate-900 dark:text-white text-lg">Django REST API</div>
                                     <div class="text-xs text-slate-500 dark:text-slate-400 mt-2">Core Orchestration</div>
@@ -384,7 +382,7 @@
                             </div>
 
                             <div class="flex flex-col gap-4 items-center md:items-start w-full">
-                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-purple-500/50 bg-white dark:bg-slate-800 shadow-sm relative">
+                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-purple-500/50 shadow-sm relative">
                                     <div class="md:hidden absolute -top-4 left-1/2 h-4 w-0.5 bg-slate-300 dark:bg-slate-600"></div> 
                                     <i class="fas fa-microphone-alt text-xl md:text-2xl mb-2 text-purple-500"></i>
                                     <div class="font-bold text-slate-800 dark:text-white text-sm">FastAPI + Whisper</div>
@@ -394,14 +392,12 @@
 
                             <div class="flex flex-col gap-4 items-center md:items-end w-full">
                                 <div class="md:hidden h-4 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
-                                
-                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-blue-500/50 bg-white dark:bg-slate-800 shadow-sm">
+                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-blue-500/50 shadow-sm">
                                     <i class="fas fa-database text-xl md:text-2xl mb-2 text-blue-500"></i>
                                     <div class="font-bold text-slate-800 dark:text-white text-sm">Postgres + Redis</div>
                                 </div>
                                 <div class="md:hidden h-4 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
-                                
-                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-orange-500/50 bg-white dark:bg-slate-800 shadow-sm">
+                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-orange-500/50 shadow-sm">
                                     <i class="fab fa-aws text-xl md:text-2xl mb-2 text-orange-500"></i>
                                     <div class="font-bold text-slate-800 dark:text-white text-sm">Amazon S3</div>
                                     <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Static Media</div>
@@ -414,7 +410,7 @@
                         <div class="hidden md:block h-12 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
                         <div class="md:hidden h-8 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
 
-                        <div class="glass p-4 md:p-5 rounded-xl text-center w-full md:w-3/4 border-yellow-500/50 bg-white dark:bg-slate-800 shadow-md z-10 relative">
+                        <div class="glass p-4 md:p-5 rounded-xl text-center w-full md:w-3/4 border-yellow-500/50 z-10 relative">
                             <i class="fas fa-bolt text-xl md:text-2xl mb-2 text-yellow-500"></i>
                             <div class="font-bold text-slate-800 dark:text-white">Celery Workers (Async)</div>
                             <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Heavy Processing & Scheduled Jobs</div>
@@ -423,19 +419,19 @@
                         <div class="h-8 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 w-full">
-                            <div class="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-center shadow-sm">
+                            <div class="glass p-3 rounded-lg text-center shadow-sm">
                                 <div class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Payments</div>
                                 <div class="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center justify-center gap-2">
                                     <i class="fab fa-stripe text-indigo-500 text-lg"></i> Stripe / Tabby
                                 </div>
                             </div>
-                            <div class="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-center shadow-sm">
+                            <div class="glass p-3 rounded-lg text-center shadow-sm">
                                 <div class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Feeds</div>
                                 <div class="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center justify-center gap-2">
                                     <i class="fab fa-google text-red-500"></i> Merchant
                                 </div>
                             </div>
-                            <div class="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-center shadow-sm">
+                            <div class="glass p-3 rounded-lg text-center shadow-sm">
                                 <div class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Shipping</div>
                                 <div class="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center justify-center gap-2">
                                     <i class="fas fa-truck text-blue-500"></i> iMile
@@ -445,7 +441,6 @@
                     </div>
 
                 </div>
-                
             </div>
         </div>
     </section>
@@ -457,48 +452,48 @@
             </h2>
             
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-2xl border-t-4 border-blue-500 hover:-translate-y-2 transition-transform reveal">
-                    <div class="w-14 h-14 bg-blue-500/20 rounded-lg flex items-center justify-center mb-6 text-blue-500">
+                <div class="glass p-8 rounded-2xl border-t-4 border-blue-500 hover:-translate-y-2 transition-transform reveal flex flex-col">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-lg flex items-center justify-center mb-6 text-blue-500 border border-blue-500/20">
                         <i class="fas fa-rocket text-2xl"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-4">MVP Development</h3>
-                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 flex-grow">
                         Turn your startup idea into a deployed product. I build the entire backend, API, and database structure from scratch.
                     </p>
-                    <ul class="space-y-2 text-sm text-slate-500 dark:text-slate-300">
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Django/FastAPI Setup</li>
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Database Design</li>
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Deployment (VPS/AWS)</li>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400 border-t border-gray-200 dark:border-white/5 pt-4">
+                        <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Django/FastAPI Setup</li>
+                        <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Database Design</li>
+                        <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Deployment (VPS/AWS)</li>
                     </ul>
                 </div>
 
-                <div class="glass p-8 rounded-2xl border-t-4 border-green-500 hover:-translate-y-2 transition-transform reveal">
-                    <div class="w-14 h-14 bg-green-500/20 rounded-lg flex items-center justify-center mb-6 text-green-500">
+                <div class="glass p-8 rounded-2xl border-t-4 border-green-500 hover:-translate-y-2 transition-transform reveal flex flex-col">
+                    <div class="w-14 h-14 bg-green-500/10 rounded-lg flex items-center justify-center mb-6 text-green-500 border border-green-500/20">
                         <i class="fas fa-cogs text-2xl"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-4">API Integration</h3>
-                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 flex-grow">
                         Connect your system to the world. I integrate Payment Gateways, Shipping APIs, and AI tools seamlessly.
                     </p>
-                    <ul class="space-y-2 text-sm text-slate-500 dark:text-slate-300">
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> Stripe / Tabby Payments</li>
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> Shipping (iMile/Vnline)</li>
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> OpenAI / LLM Agents</li>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400 border-t border-gray-200 dark:border-white/5 pt-4">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Stripe / Tabby Payments</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Shipping (iMile/Vnline)</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> OpenAI / LLM Agents</li>
                     </ul>
                 </div>
 
-                <div class="glass p-8 rounded-2xl border-t-4 border-purple-500 hover:-translate-y-2 transition-transform reveal">
-                    <div class="w-14 h-14 bg-purple-500/20 rounded-lg flex items-center justify-center mb-6 text-purple-500">
+                <div class="glass p-8 rounded-2xl border-t-4 border-purple-500 hover:-translate-y-2 transition-transform reveal flex flex-col">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-lg flex items-center justify-center mb-6 text-purple-500 border border-purple-500/20">
                         <i class="fas fa-tachometer-alt text-2xl"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-4">Optimization</h3>
-                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 flex-grow">
                         Fixing slow queries and server crashes. I optimize your backend to handle high traffic without breaking.
                     </p>
-                    <ul class="space-y-2 text-sm text-slate-500 dark:text-slate-300">
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Celery Async Tasks</li>
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Redis Caching</li>
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Query Optimization</li>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400 border-t border-gray-200 dark:border-white/5 pt-4">
+                        <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Celery Async Tasks</li>
+                        <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Redis Caching</li>
+                        <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Query Optimization</li>
                     </ul>
                 </div>
             </div>
@@ -521,7 +516,6 @@
             <h2 class="text-4xl font-bold mb-16 text-center reveal">
                 <span class="text-accent text-2xl font-mono">03.</span> Featured Projects
             </h2>
-            <p class="text-center mb-8 text-slate-500 dark:text-slate-400">Click on any project to see full details</p>
             <div id="projects-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </div>
     </section>
@@ -529,15 +523,11 @@
     <section class="py-32 px-4">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16">
             <div class="reveal">
-                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
-                    <i class="fas fa-graduation-cap text-accent"></i> Education
-                </h3>
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3"><i class="fas fa-graduation-cap text-accent"></i> Education</h3>
                 <div id="education-container" class="space-y-6"></div>
             </div>
             <div class="reveal">
-                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
-                    <i class="fas fa-certificate text-accent"></i> Certificates
-                </h3>
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3"><i class="fas fa-certificate text-accent"></i> Certificates</h3>
                 <div id="certificates-container" class="space-y-6"></div>
             </div>
         </div>
@@ -548,10 +538,7 @@
         <div class="max-w-3xl mx-auto relative z-10 reveal glass p-12 rounded-3xl">
             <p class="text-accent font-mono mb-6">04. What's Next?</p>
             <h2 class="text-5xl md:text-6xl font-bold text-slate-800 dark:text-white mb-8 tracking-tight">Let's Build Something</h2>
-            <p class="text-xl text-slate-600 dark:text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                I am actively seeking new opportunities to apply my backend expertise. Whether you have a question or just want to say hi, I'll try my best to get back to you!
-            </p>
-            <a id="contact-btn-main" href="" class="inline-block px-12 py-5 bg-accent text-white font-bold rounded hover:bg-accentDark transition-all shadow-[0_0_20px_rgba(14,165,233,0.4)] hover:shadow-[0_0_40px_rgba(14,165,233,0.6)] interactive hover:scale-105">
+            <a id="contact-btn-main" href="" class="inline-block px-12 py-5 bg-accent text-white font-bold rounded hover:bg-accentDark transition-all shadow-[0_0_20px_var(--glow-color)] hover:shadow-[0_0_40px_var(--glow-color)] interactive hover:scale-105">
                 Initialize Communication
             </a>
         </div>
@@ -564,9 +551,7 @@
     <div id="project-modal" class="hidden-modal fixed inset-0 z-[100] items-center justify-center p-4">
         <div id="modal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
         <div id="modal-content" class="relative bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 flex flex-col">
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-accent transition-colors interactive">
-                <i class="fas fa-times"></i>
-            </button>
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-accent transition-colors interactive"><i class="fas fa-times"></i></button>
             <div class="relative h-64 md:h-80 w-full shrink-0">
                 <img id="modal-img" src="" alt="Project Preview" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent"></div>
@@ -579,46 +564,35 @@
                 <h3 class="text-sm font-bold uppercase tracking-widest text-accent mb-3">About Project</h3>
                 <p id="modal-desc" class="text-slate-600 dark:text-slate-300 leading-relaxed text-lg mb-8 whitespace-pre-line"></p>
                 <div class="flex gap-4 border-t border-gray-200 dark:border-white/10 pt-6">
-                    <a id="modal-link" href="#" target="_blank" class="px-6 py-3 bg-accent text-white font-bold rounded hover:bg-accentDark transition-all interactive flex items-center gap-2">
-                        <span>View Live</span> <i class="fas fa-external-link-alt"></i>
-                    </a>
+                    <a id="modal-link" href="#" target="_blank" class="px-6 py-3 bg-accent text-white font-bold rounded hover:bg-accentDark transition-all interactive flex items-center gap-2"><span>View Live</span> <i class="fas fa-external-link-alt"></i></a>
                 </div>
             </div>
         </div>
     </div>
-	<div id="cert-modal" class="hidden-modal fixed inset-0 z-[200] items-center justify-center p-4">
+
+    <div id="cert-modal" class="hidden-modal fixed inset-0 z-[200] items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeCertModal()"></div>
-        
         <div class="relative bg-white dark:bg-slate-900 w-full max-w-6xl h-[85vh] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 flex flex-col overflow-hidden animate-[scaleIn_0.3s_ease-out]">
-            
             <div class="flex justify-between items-center p-4 border-b border-gray-100 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-md shrink-0">
                 <div>
                     <h3 id="cert-modal-title" class="text-xl font-bold text-slate-800 dark:text-white"></h3>
                     <p id="cert-modal-issuer" class="text-sm text-slate-500 dark:text-slate-400 font-mono"></p>
                 </div>
-                <button onclick="closeCertModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-white flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button onclick="closeCertModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-white flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
             </div>
-
             <div class="flex-1 bg-slate-100 dark:bg-black/80 relative flex items-center justify-center p-4 overflow-hidden">
-                
                 <iframe id="cert-iframe" class="w-full h-full hidden rounded shadow-sm" src=""></iframe>
-                
                 <img id="cert-image" class="max-w-full max-h-full object-contain shadow-2xl rounded hidden" src="" alt="Certificate">
-                
                 <div id="cert-fallback" class="absolute inset-0 flex flex-col items-center justify-center gap-4 hidden z-10">
                     <p class="text-slate-500">Preview not available or external link</p>
-                    <a id="cert-external-link" href="#" target="_blank" class="px-6 py-2 bg-accent text-white rounded hover:bg-accentDark transition-colors">
-                        Open Certificate <i class="fas fa-external-link-alt ml-2"></i>
-                    </a>
+                    <a id="cert-external-link" href="#" target="_blank" class="px-6 py-2 bg-accent text-white rounded hover:bg-accentDark transition-colors">Open Certificate <i class="fas fa-external-link-alt ml-2"></i></a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // DATA
+        // --- DATA OBJECT ---
         const data = {
             personal: {
                 name: "Ghaith Alali",
@@ -741,61 +715,77 @@
                     name: "ICPC ACPC Kickoff", 
                     issuer: "ICPC Foundation",
                     date: "June 2021", 
-                    type: "pdf", // نوع الملف
-                    url: "assets/certs/2022-ICPC ACPC Kickoff-Mr. Ghaith Alali-PLACE.pdf" // ضع مسار الملف الصحيح هنا
+                    type: "pdf", 
+                    url: "assets/certs/2022-ICPC ACPC Kickoff-Mr. Ghaith Alali-PLACE.pdf"
                 },
                 { 
                     name: "ICPC Al-Baath & Hama Contest", 
                     issuer: "ICPC Foundation",
                     date: "August 2021", 
                     type: "pdf",
-                    url: "assets/certs/2022-ICPC Al-baath&Hama UC-Mr. Ghaith Alali-PLACE.pdf" // ضع مسار الملف الصحيح هنا
+                    url: "assets/certs/2022-ICPC Al-baath&Hama UC-Mr. Ghaith Alali-PLACE.pdf"
                 },
                 { 
                     name: "Python Internship", 
                     issuer: "CompWallah",
                     date: "April 2024", 
-                    type: "image", // إذا كانت صورة، أو "link" إذا رابط خارجي
-                    url: "assets/certs/compwallah.png" // أو رابط الصورة
+                    type: "image", 
+                    url: "assets/certs/compwallah.png"
                 }
             ]
         };
 
-        // 1. THEME TOGGLE
+        // 1. UPDATED THEME LOGIC
+        const themes = ['light', 'dark', 'hacker'];
+        
         function initTheme() {
             const toggleBtn = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
             const html = document.documentElement;
-            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                html.classList.add('dark');
-            } else {
-                html.classList.remove('dark');
+            
+            let currentTheme = localStorage.theme || 'dark';
+            if (!themes.includes(currentTheme)) currentTheme = 'dark';
+            
+            function applyTheme(theme) {
+                html.classList.remove('dark', 'hacker');
+                if (theme === 'dark') {
+                    html.classList.add('dark');
+                    themeIcon.className = 'fas fa-sun text-yellow-400';
+                } else if (theme === 'hacker') {
+                    html.classList.add('hacker', 'dark');
+                    themeIcon.className = 'fas fa-user-secret text-red-500';
+                } else {
+                    themeIcon.className = 'fas fa-moon text-slate-600';
+                }
+                localStorage.theme = theme;
+                if(window.updateCanvasTheme) window.updateCanvasTheme();
             }
+
+            applyTheme(currentTheme);
+
             toggleBtn.addEventListener('click', () => {
-                html.classList.toggle('dark');
-                localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+                let index = themes.indexOf(currentTheme);
+                index = (index + 1) % themes.length;
+                currentTheme = themes[index];
+                applyTheme(currentTheme);
             });
         }
 
-        // 2. MOBILE MENU
+        // 2. MOBILE MENU & CURSOR & OTHER UTILS (Same as before)
         function initMobileMenu() {
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
             const icon = btn.querySelector('i');
             const links = document.querySelectorAll('.mobile-link');
-
             function toggleMenu() {
                 const isOpen = menu.classList.contains('open');
                 if (isOpen) {
-                    menu.classList.remove('open');
-                    menu.classList.add('closed');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
+                    menu.classList.remove('open'); menu.classList.add('closed');
+                    icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
                     document.body.style.overflow = '';
                 } else {
-                    menu.classList.remove('closed');
-                    menu.classList.add('open');
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
+                    menu.classList.remove('closed'); menu.classList.add('open');
+                    icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
                     document.body.style.overflow = 'hidden';
                 }
             }
@@ -803,7 +793,6 @@
             links.forEach(link => { link.addEventListener('click', toggleMenu); });
         }
 
-        // 3. CURSOR TRAIL
         function initCursor() {
             const cursorHead = document.getElementById('cursor-head');
             if(!cursorHead) return;
@@ -834,8 +823,17 @@
             });
 
             function animateTrail() {
-                let x = mouseX;
-                let y = mouseY;
+                // Determine Color based on CSS Variables could be complex, using simple logic:
+                let color = '#0ea5e9'; // default blue
+                if (document.documentElement.classList.contains('hacker')) {
+                    color = '#ef4444'; // hacker red
+                } else if (document.documentElement.classList.contains('dark')) {
+                    color = '#0ea5e9'; // dark blue
+                } else {
+                    color = '#0369a1'; // light blue
+                }
+                
+                cursorHead.style.backgroundColor = color;
                 dots.forEach((dot, index) => {
                     const nextDot = dots[index - 1] || { x: mouseX, y: mouseY };
                     const targetX = index === 0 ? mouseX : nextDot.x;
@@ -845,31 +843,21 @@
                     dot.y += (targetY - dot.y) * 0.4;
                     dot.el.style.left = (dot.x - parseFloat(dot.el.style.width)/2) + 'px';
                     dot.el.style.top = (dot.y - parseFloat(dot.el.style.height)/2) + 'px';
-                    
-                    const isDark = document.documentElement.classList.contains('dark');
-                    const color = isDark ? '#0ea5e9' : '#0369a1';
                     dot.el.style.backgroundColor = color;
-                    cursorHead.style.backgroundColor = color;
                 });
                 requestAnimationFrame(animateTrail);
             }
             animateTrail();
         }
 
-        // 4. CANVAS BACKGROUND
+        // 4. MATRIX RAIN + PARTICLES
         function initCanvas() {
             const canvas = document.getElementById('canvas-bg');
             if(!canvas) return;
             const ctx = canvas.getContext('2d');
-            let width, height, particles = [];
-
-            function resize() {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
+            let width, height;
+            
+            let particles = [];
             class Particle {
                 constructor() {
                     this.x = Math.random() * width;
@@ -893,45 +881,94 @@
                     ctx.fill();
                 }
             }
-            for(let i=0; i<85; i++) particles.push(new Particle());
+
+            let matrixDrops = [];
+            const fontSize = 16;
+            function initMatrix() {
+                const columns = Math.ceil(width / fontSize);
+                matrixDrops = [];
+                for(let x = 0; x < columns; x++) {
+                    matrixDrops[x] = Math.random() * height;
+                }
+            }
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                particles = [];
+                for(let i=0; i<85; i++) particles.push(new Particle());
+                initMatrix();
+            }
+            window.addEventListener('resize', resize);
+            resize();
 
             let mouse = { x: null, y: null };
             window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
             window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
 
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                const isDark = document.documentElement.classList.contains('dark');
-                const particleColor = isDark ? 'rgba(56, 189, 248, 0.6)' : 'rgba(3, 105, 161, 0.6)';
-                const lineColor = isDark ? '56, 189, 248' : '3, 105, 161';
+            window.updateCanvasTheme = () => { resize(); };
 
-                particles.forEach((p, i) => {
-                    p.update();
-                    p.draw(particleColor);
-                    for (let j = i; j < particles.length; j++) {
-                        const dx = particles[j].x - p.x;
-                        const dy = particles[j].y - p.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 120) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(${lineColor}, ${1 - dist/120})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.moveTo(p.x, p.y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
+            function animate() {
+                const isHacker = document.documentElement.classList.contains('hacker');
+                const isDark = document.documentElement.classList.contains('dark');
+                
+                if (isHacker) {
+                    // SLOW MATRIX EFFECT
+                    ctx.fillStyle = 'rgba(2, 2, 2, 0.05)'; // Trail
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    ctx.fillStyle = '#ef4444'; 
+                    ctx.font = fontSize + 'px monospace';
+                    
+                    for(let i = 0; i < matrixDrops.length; i++) {
+                        const text = Math.random() > 0.5 ? '1' : '0';
+                        const x = i * fontSize;
+                        const y = matrixDrops[i] * fontSize;
+                        
+                        // Faint random opacity for depth
+                        ctx.fillStyle = `rgba(239, 68, 68, ${Math.random() * 0.5 + 0.1})`;
+                        ctx.fillText(text, x, y);
+                        
+                        if(y > height && Math.random() > 0.99) {
+                            matrixDrops[i] = 0;
                         }
+                        // VERY SLOW SPEED (0.35)
+                        matrixDrops[i] += 0.35; 
                     }
-                    if (mouse.x != null) {
-                        const dx = mouse.x - p.x;
-                        const dy = mouse.y - p.y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-                        if (dist < 200) {
-                            const force = (200 - dist) / 200;
-                            p.x += (dx / dist) * force * 2;
-                            p.y += (dy / dist) * force * 2;
+                } else {
+                    // PARTICLES
+                    ctx.clearRect(0, 0, width, height);
+                    const particleColor = isDark ? 'rgba(56, 189, 248, 0.6)' : 'rgba(3, 105, 161, 0.6)';
+                    const lineColor = isDark ? '56, 189, 248' : '3, 105, 161';
+
+                    particles.forEach((p, i) => {
+                        p.update();
+                        p.draw(particleColor);
+                        for (let j = i; j < particles.length; j++) {
+                            const dx = particles[j].x - p.x;
+                            const dy = particles[j].y - p.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 120) {
+                                ctx.beginPath();
+                                ctx.strokeStyle = `rgba(${lineColor}, ${1 - dist/120})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(particles[j].x, particles[j].y);
+                                ctx.stroke();
+                            }
                         }
-                    }
-                });
+                        if (mouse.x != null) {
+                            const dx = mouse.x - p.x;
+                            const dy = mouse.y - p.y;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            if (dist < 200) {
+                                const force = (200 - dist) / 200;
+                                p.x += (dx / dist) * force * 2;
+                                p.y += (dy / dist) * force * 2;
+                            }
+                        }
+                    });
+                }
                 requestAnimationFrame(animate);
             }
             animate();
@@ -974,7 +1011,7 @@
                                 <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">${exp.desc}</p>
                             </div>
                         </div>
-                        <div class="hidden md:block absolute left-1/2 w-4 h-4 bg-accent rounded-full -translate-x-1/2 border-4 border-white dark:border-darkBg shadow-[0_0_15px_#0ea5e9] z-20"></div>
+                        <div class="hidden md:block absolute left-1/2 w-4 h-4 bg-accent rounded-full -translate-x-1/2 border-4 border-white dark:border-darkBg shadow-[0_0_15px_var(--accent-color)] z-20"></div>
                         <div class="hidden md:block w-[45%]"></div>
                     </div>
                 `;
@@ -1040,7 +1077,7 @@
             });
         }
 
-        // 6. MODAL LOGIC
+        // 6. MODAL & TERMINAL LOGIC (Same as before)
         function openProjectModal(index) {
             const project = data.projects[index];
             const modal = document.getElementById('project-modal');
@@ -1052,19 +1089,16 @@
             tagsContainer.innerHTML = project.tech.map(t => 
                 `<span class="text-xs font-bold text-white bg-white/20 px-2 py-1 rounded backdrop-blur-sm">#${t}</span>`
             ).join('');
-            modal.classList.remove('hidden-modal');
-            modal.classList.add('flex-modal');
+            modal.classList.remove('hidden-modal'); modal.classList.add('flex-modal');
             document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
             const modal = document.getElementById('project-modal');
-            modal.classList.remove('flex-modal');
-            modal.classList.add('hidden-modal');
+            modal.classList.remove('flex-modal'); modal.classList.add('hidden-modal');
             document.body.style.overflow = ''; 
         }
 		
-		// CERTIFICATE MODAL LOGIC
         function openCertModal(index) {
             const cert = data.certs[index];
             const modal = document.getElementById('cert-modal');
@@ -1073,49 +1107,27 @@
             const fallback = document.getElementById('cert-fallback');
             const extLink = document.getElementById('cert-external-link');
 
-            // Set Content
             document.getElementById('cert-modal-title').textContent = cert.name;
             document.getElementById('cert-modal-issuer').textContent = cert.issuer + ' | ' + cert.date;
 
-            // Reset Views
-            iframe.classList.add('hidden');
-            img.classList.add('hidden');
-            fallback.classList.add('hidden');
+            iframe.classList.add('hidden'); img.classList.add('hidden'); fallback.classList.add('hidden');
 
-            // Handle Type
-            if (cert.type === 'pdf') {
-                iframe.src = cert.url;
-                iframe.classList.remove('hidden');
-            } else if (cert.type === 'image') {
-                img.src = cert.url;
-                img.classList.remove('hidden');
-            } else {
-                // Link or other
-                extLink.href = cert.url;
-                fallback.classList.remove('hidden');
-            }
+            if (cert.type === 'pdf') { iframe.src = cert.url; iframe.classList.remove('hidden'); } 
+            else if (cert.type === 'image') { img.src = cert.url; img.classList.remove('hidden'); } 
+            else { extLink.href = cert.url; fallback.classList.remove('hidden'); }
 
-            modal.classList.remove('hidden-modal');
-            modal.classList.add('flex-modal');
+            modal.classList.remove('hidden-modal'); modal.classList.add('flex-modal');
             document.body.style.overflow = 'hidden';
         }
 
         function closeCertModal() {
             const modal = document.getElementById('cert-modal');
             const iframe = document.getElementById('cert-iframe');
-            
-            modal.classList.remove('flex-modal');
-            modal.classList.add('hidden-modal');
+            modal.classList.remove('flex-modal'); modal.classList.add('hidden-modal');
             document.body.style.overflow = '';
-            
-            // Clear source to stop loading
-            setTimeout(() => {
-                iframe.src = '';
-                document.getElementById('cert-image').src = '';
-            }, 300);
+            setTimeout(() => { iframe.src = ''; document.getElementById('cert-image').src = ''; }, 300);
         }
 
-        // 7. TERMINAL LOGIC
         function initTerminal() {
             const modal = document.getElementById('terminal-modal');
             const toggleBtn = document.getElementById('terminal-toggle');
@@ -1125,51 +1137,28 @@
             function toggleTerminal() {
                 const isHidden = modal.classList.contains('hidden-modal');
                 if (isHidden) {
-                    modal.classList.remove('hidden-modal');
-                    modal.classList.add('flex-modal');
-                    input.focus();
-                    document.body.style.overflow = 'hidden';
+                    modal.classList.remove('hidden-modal'); modal.classList.add('flex-modal');
+                    input.focus(); document.body.style.overflow = 'hidden';
                 } else {
-                    modal.classList.remove('flex-modal');
-                    modal.classList.add('hidden-modal');
+                    modal.classList.remove('flex-modal'); modal.classList.add('hidden-modal');
                     document.body.style.overflow = '';
                 }
             }
-
             toggleBtn.addEventListener('click', toggleTerminal);
-
             document.addEventListener('keydown', (e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                    e.preventDefault();
-                    toggleTerminal();
-                }
-                if (e.key === 'Escape') {
-                    if (!modal.classList.contains('hidden-modal')) toggleTerminal();
-                    closeModal();
-                }
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); toggleTerminal(); }
+                if (e.key === 'Escape') { if (!modal.classList.contains('hidden-modal')) toggleTerminal(); closeModal(); }
             });
-
-            // UPDATED COMMANDS
             const commands = {
-                help: "Available commands: <span class='text-white'>whoami, skills, projects, architecture, impact, contact, clear, exit</span>",
-                whoami: "User: Ghaith Alali\nRole: Backend Architect\nLevel: 24\nStatus: Online & Ready to Code.",
+                help: "Available commands: <span class='text-white'>whoami, skills, projects, architecture, contact, clear, exit</span>",
+                whoami: "User: Ghaith Alali\nRole: Backend Architect\nLevel: 24\nStatus: Online.",
                 skills: () => data.skills.map(s => `<span class="${s.color}">${s.name}</span>`).join(', '),
                 projects: () => data.projects.map(p => `• <a href="${p.link}" target="_blank" class="underline hover:text-white">${p.title}</a>`).join('\n'),
-                architecture: () => 
-                    `<span class="text-accent">Core:</span> Django REST Framework<br>` +
-                    `<span class="text-accent">Async:</span> Celery + Redis (Task Queue)<br>` +
-                    `<span class="text-accent">Voice:</span> FastAPI + Whisper<br>` +
-                    `<span class="text-accent">Storage:</span> AWS S3 (Media/XML Feeds)<br>` +
-                    `<span class="text-accent">External:</span> Google Merchant, TikTok API, Stripe`,
-                impact: () => 
-                    `1. <span class="text-green-400">Automated</span> XML feed generation for 50k+ products.<br>` +
-                    `2. <span class="text-green-400">Reduced</span> server costs by 40% via S3 offloading.<br>` +
-                    `3. <span class="text-green-400">Processed</span> $100k+ in transactions via Stripe/Tabby.`,
-                contact: `Email: <a href="mailto:${data.personal.email}" class="underline hover:text-white">${data.personal.email}</a>\nGitHub: ${data.personal.github}`,
+                architecture: () => `<span class="text-accent">Core:</span> Django REST Framework<br><span class="text-accent">Async:</span> Celery + Redis`,
+                contact: `Email: <a href="mailto:${data.personal.email}" class="underline hover:text-white">${data.personal.email}</a>`,
                 clear: () => { output.innerHTML = ''; return ''; },
                 exit: () => { toggleTerminal(); return "Session closed."; }
             };
-
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     const val = input.value.trim().toLowerCase();
@@ -1177,24 +1166,19 @@
                     const cmdLine = document.createElement('div');
                     cmdLine.innerHTML = `<span class="text-terminalGreen">➜</span> <span class="text-blue-400">~</span> <span class="text-gray-100">${val}</span>`;
                     output.appendChild(cmdLine);
-                    let response = `<span class="text-red-400">Command not found: ${val}. Type 'help'.</span>`;
-                    if (commands[val]) {
-                        response = typeof commands[val] === 'function' ? commands[val]() : commands[val];
-                    }
+                    let response = `<span class="text-red-400">Command not found: ${val}.</span>`;
+                    if (commands[val]) { response = typeof commands[val] === 'function' ? commands[val]() : commands[val]; }
                     if (response) {
                         const respLine = document.createElement('div');
-                        respLine.innerHTML = response;
-                        respLine.className = 'mb-4 text-gray-300';
+                        respLine.innerHTML = response; respLine.className = 'mb-4 text-gray-300';
                         output.appendChild(respLine);
                     }
-                    input.value = '';
-                    output.scrollTop = output.scrollHeight;
+                    input.value = ''; output.scrollTop = output.scrollHeight;
                 }
             });
             window.toggleTerminal = toggleTerminal;
         }
 
-        // 8. UTILS
         function initTypewriter() {
             const el = document.getElementById('typing-text');
             const roles = data.personal.roles;
@@ -1212,9 +1196,7 @@
 
         function initScrollAnimations() {
             const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('active');
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
             }, { threshold: 0.1 });
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             const section = document.getElementById('experience');
@@ -1231,14 +1213,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            renderContent();
-            initMobileMenu();
-            initCursor();
-            initCanvas();
-            initTypewriter();
-            initScrollAnimations();
-            initTerminal(); 
+            initTheme(); renderContent(); initMobileMenu(); initCursor();
+            initCanvas(); initTypewriter(); initScrollAnimations(); initTerminal(); 
         });
     </script>
 </body>
