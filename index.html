@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ghaith Alali | Backend Architect</title>
-    
+
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+
     <meta property="og:type" content="website">
     <meta property="og:title" content="Ghaith Alali | Backend Architect">
     <meta property="og:description" content="Specializing in scalable Python/Django systems and e-commerce architecture.">
-    
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -47,11 +47,11 @@
                             '50%': { opacity: '0' },
                         },
                         'profile-pulse': {
-                            '0%, 100%': { 
+                            '0%, 100%': {
                                 boxShadow: '0 0 20px var(--glow-color, rgba(14, 165, 233, 0.3))',
                                 borderColor: 'rgba(255, 255, 255, 0.8)'
                             },
-                            '50%': { 
+                            '50%': {
                                 boxShadow: '0 0 50px var(--glow-color, rgba(14, 165, 233, 0.8)), 0 0 15px rgba(255, 255, 255, 0.5) inset',
                                 borderColor: 'var(--accent-color, #0ea5e9)'
                             }
@@ -109,7 +109,7 @@
 
         /* CORE STYLES */
         body {
-            cursor: none; 
+            cursor: none;
             overflow-x: hidden;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
@@ -121,17 +121,17 @@
             border: 1px solid var(--border-glass);
             transition: all 0.3s ease;
         }
-        
+
         /* Light/Dark Shadows */
         html:not(.dark) .glass { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        
+
         /* Hacker Hover Effects */
         html.hacker .glass:hover {
             border-color: var(--accent-color);
             box-shadow: 0 0 25px -5px var(--glow-color);
             background: rgba(20, 0, 0, 0.9);
         }
-        
+
         /* Standard Hover Effects */
         html:not(.hacker) .glass:hover {
             transform: translateY(-5px);
@@ -164,7 +164,7 @@
             background-color: var(--cursor-color);
             pointer-events: none; z-index: 9999; opacity: 0.6;
         }
-        
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -175,7 +175,7 @@
         /* 4. TIMELINE */
         .timeline-line {
 			position: absolute; left: 16px; top: 140px; width: 2px;
-			background: #cbd5e1; height: auto; bottom: 100px; z-index: 0; border-radius: 4px; 
+			background: #cbd5e1; height: auto; bottom: 100px; z-index: 0; border-radius: 4px;
 		}
 		.dark .timeline-line { background: #334155; }
         html.hacker .timeline-line { background: #331111; }
@@ -184,7 +184,7 @@
 			background: var(--accent-color); height: 0%;
 			box-shadow: 0 0 15px var(--accent-color);
 			transition: height 0.1s linear; z-index: 1; border-radius: 4px;
-            max-height: calc(100% - 240px); 
+            max-height: calc(100% - 240px);
 		}
         @media (min-width: 768px) {
             .timeline-line, .timeline-progress { left: 50%; transform: translateX(-50%); }
@@ -199,7 +199,7 @@
         #mobile-menu { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         #mobile-menu.closed { transform: translateX(100%); opacity: 0; pointer-events: none; }
         #mobile-menu.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
-        
+
         @media (hover: none) and (pointer: coarse) {
             body { cursor: auto; }
             .cursor-trail, .trail-dot { display: none; }
@@ -220,7 +220,7 @@
                 </svg>
                 Ghaith
             </a>
-            
+
             <div class="hidden md:flex space-x-8">
                 <a href="#about" class="hover:text-accent transition-colors interactive text-sm font-bold uppercase tracking-widest">About</a>
                 <a href="#architecture" class="hover:text-accent transition-colors interactive text-sm font-bold uppercase tracking-widest">Architecture</a>
@@ -282,11 +282,11 @@
                 <div class="absolute inset-0 bg-accent rounded-full blur-3xl opacity-20 animate-pulse-slow"></div>
                 <img id="hero-image" src="" alt="Profile" class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-white/10 shadow-2xl animate-profile-glow select-none">
             </div>
-            
+
             <h2 class="text-accent font-mono text-lg tracking-[0.2em] mb-4 reveal">BACKEND ARCHITECT</h2>
-            
+
             <h1 class="text-6xl md:text-8xl font-bold mb-6 tracking-tighter reveal interactive" id="hero-name">GHAITH ALALI</h1>
-            
+
             <div class="h-8 mb-10 reveal text-xl md:text-2xl font-light">
                 Building <span id="typing-text" class="font-mono text-accent font-bold border-b-2 border-accent"></span>
             </div>
@@ -306,7 +306,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="flex flex-col md:flex-row justify-center gap-6 reveal">
                 <a href="#projects" class="px-8 py-4 bg-accent text-white font-bold rounded hover:bg-accentDark transition-all transform hover:-translate-y-1 interactive shadow-lg">View Projects</a>
                 <a href="assets/resume.pdf" download class="px-8 py-4 border border-slate-300 dark:border-white/20 rounded hover:border-accent hover:text-accent transition-all interactive backdrop-blur-sm bg-white/10 dark:bg-black/10 flex items-center justify-center gap-2 group">
@@ -335,109 +335,107 @@
         </div>
     </section>
 
-    <section id="architecture" class="py-20 px-4">
+    <section id<section id="architecture" class="py-20 px-4">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16 reveal">
                 <h2 class="text-4xl font-bold mb-4">
                     <span class="text-accent text-2xl font-mono">01.5</span> Production Architecture
                 </h2>
                 <p class="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                    Architecture powering multilingual product ingestion, async processing, and merchant feed sync.
+                    A scalable, multi-layered architecture powering AI ingestion, real-time communications, and async processing.
                 </p>
             </div>
-            
-            <div class="relative w-full border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/50 p-4 md:p-12 reveal overflow-hidden shadow-xl">
+
+            <div class="relative w-full border border-slate-300 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-900/50 p-6 md:p-12 reveal overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
-                <div class="relative z-10 flex flex-col items-center select-none">
-                    
-                    <div class="flex flex-col items-center w-full">
-                        <div class="glass p-3 md:p-4 rounded-xl text-center w-36 md:w-40 z-20">
-                            <i class="fas fa-users text-xl md:text-2xl mb-2 text-slate-700 dark:text-white"></i>
-                            <div class="font-mono text-xs text-slate-500 dark:text-slate-400">Clients</div>
-                        </div>
-                        <div class="h-8 md:h-12 w-0.5 bg-slate-300 dark:bg-slate-600 relative overflow-hidden">
-                             <div class="absolute top-0 left-0 w-full h-full bg-accent animate-[movedown_1.5s_linear_infinite]"></div>
-                        </div>
-                        
-                        <div class="glass p-4 rounded-xl text-center w-48 md:w-56 border-accent z-20 hover:scale-105 transition-transform">
-                            <i class="fas fa-server text-xl md:text-2xl mb-2 text-accent"></i>
-                            <div class="font-bold text-slate-800 dark:text-white text-sm">Nginx / Gateway</div>
-                            <div class="font-mono text-[10px] text-accent">SSL Termination</div>
-                        </div>
-                        <div class="h-8 md:h-12 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
+                <div class="relative z-10 flex flex-col gap-6 w-full max-w-5xl mx-auto select-none">
+
+                    <div class="flex flex-col md:flex-row items-center gap-4 justify-center relative">
+                         <div class="glass px-6 py-3 rounded-full flex items-center gap-3 border-slate-400/50 shadow-sm z-10">
+                             <i class="fas fa-mobile-alt text-slate-500"></i>
+                             <i class="fas fa-laptop text-slate-500"></i>
+                             <span class="font-bold text-sm">Clients</span>
+                         </div>
+                         <i class="fas fa-arrow-right text-slate-400 hidden md:block animate-pulse"></i>
+                         <i class="fas fa-arrow-down text-slate-400 md:hidden animate-pulse"></i>
+                         <div class="glass p-4 rounded-xl flex flex-col items-center border-accent w-48 hover:scale-105 transition-transform z-10 shadow-md">
+                             <i class="fas fa-server text-accent text-xl mb-1"></i>
+                             <div class="font-bold text-sm text-slate-800 dark:text-white">Nginx / Gateway</div>
+                             <div class="text-[10px] text-slate-500">SSL & Load Balancing</div>
+                         </div>
                     </div>
 
-                    <div class="relative w-full max-w-4xl">
-                        <div class="hidden md:block absolute top-1/2 left-20 right-20 h-0.5 bg-slate-300 dark:bg-slate-600 -z-10 transform -translate-y-1/2"></div>
-                        <div class="flex flex-col md:grid md:grid-cols-3 gap-6 md:gap-8 items-center">
-                            
-                            <div class="order-first md:order-none flex flex-col items-center w-full">
-                                <div class="glass p-5 md:p-6 rounded-2xl text-center w-full max-w-[280px] border-green-500/50 z-20 md:transform md:scale-110">
-                                    <i class="fab fa-python text-3xl md:text-4xl mb-3 text-green-500"></i>
-                                    <div class="font-bold text-slate-900 dark:text-white text-lg">Django REST API</div>
-                                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-2">Core Orchestration</div>
-                                </div>
-                                <div class="md:hidden h-8 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
-                            </div>
+                    <div class="flex justify-center my-2"><i class="fas fa-chevron-down text-accent animate-bounce"></i></div>
 
-                            <div class="flex flex-col gap-4 items-center md:items-start w-full">
-                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-purple-500/50 shadow-sm relative">
-                                    <div class="md:hidden absolute -top-4 left-1/2 h-4 w-0.5 bg-slate-300 dark:bg-slate-600"></div> 
-                                    <i class="fas fa-microphone-alt text-xl md:text-2xl mb-2 text-purple-500"></i>
-                                    <div class="font-bold text-slate-800 dark:text-white text-sm">FastAPI + Whisper</div>
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Voice Search</div>
-                                </div>
-                            </div>
+                    <div class="glass p-6 md:p-8 rounded-2xl border-green-500/30 shadow-lg relative overflow-hidden group hover:border-green-500/50 transition-colors">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500"></div>
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 text-center mb-6">Core Application Layer</h3>
 
-                            <div class="flex flex-col gap-4 items-center md:items-end w-full">
-                                <div class="md:hidden h-4 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
-                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-blue-500/50 shadow-sm">
-                                    <i class="fas fa-database text-xl md:text-2xl mb-2 text-blue-500"></i>
-                                    <div class="font-bold text-slate-800 dark:text-white text-sm">Postgres + Redis</div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                            <div class="bg-white/60 dark:bg-black/30 p-5 rounded-xl border border-green-500/20 text-center hover:-translate-y-1 transition-transform shadow-sm">
+                                <i class="fab fa-python text-4xl text-green-500 mb-3 drop-shadow-md"></i>
+                                <div class="font-bold text-slate-800 dark:text-white">Django REST API</div>
+                                <div class="text-xs text-slate-500 mt-2">Core Orchestration & Business Logic</div>
+                            </div>
+                            <div class="bg-white/60 dark:bg-black/30 p-5 rounded-xl border border-cyan-500/20 text-center hover:-translate-y-1 transition-transform shadow-sm relative">
+                                <div class="absolute top-2 right-2 flex space-x-1">
+                                    <span class="w-2 h-2 bg-cyan-500 rounded-full animate-ping"></span>
+                                    <span class="w-2 h-2 bg-cyan-500 rounded-full absolute"></span>
                                 </div>
-                                <div class="md:hidden h-4 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
-                                <div class="glass p-3 md:p-4 rounded-xl text-center w-full max-w-[240px] border-orange-500/50 shadow-sm">
-                                    <i class="fab fa-aws text-xl md:text-2xl mb-2 text-orange-500"></i>
-                                    <div class="font-bold text-slate-800 dark:text-white text-sm">Amazon S3</div>
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Static Media</div>
-                                </div>
+                                <i class="fas fa-broadcast-tower text-4xl text-cyan-500 mb-3 drop-shadow-md"></i>
+                                <div class="font-bold text-slate-800 dark:text-white">Django Channels</div>
+                                <div class="text-xs text-slate-500 mt-2">WebSockets & Live Voice Chat</div>
+                            </div>
+                            <div class="bg-white/60 dark:bg-black/30 p-5 rounded-xl border border-purple-500/20 text-center hover:-translate-y-1 transition-transform shadow-sm">
+                                <i class="fas fa-brain text-4xl text-purple-500 mb-3 drop-shadow-md"></i>
+                                <div class="font-bold text-slate-800 dark:text-white">OpenAI Integration</div>
+                                <div class="text-xs text-slate-500 mt-2">LLM Agents & Voice Analysis</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="w-full max-w-2xl flex flex-col items-center mt-6 md:mt-0">
-                        <div class="hidden md:block h-12 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
-                        <div class="md:hidden h-8 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
+                    <div class="flex justify-center gap-16 md:gap-48 my-2 text-slate-400">
+                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down hidden md:block"></i>
+                    </div>
 
-                        <div class="glass p-4 md:p-5 rounded-xl text-center w-full md:w-3/4 border-yellow-500/50 z-10 relative">
-                            <i class="fas fa-bolt text-xl md:text-2xl mb-2 text-yellow-500"></i>
-                            <div class="font-bold text-slate-800 dark:text-white">Celery Workers (Async)</div>
-                            <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Heavy Processing & Scheduled Jobs</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                        <div class="glass p-5 rounded-xl border-yellow-500/30 flex items-center gap-5 hover:scale-[1.02] transition-transform shadow-sm">
+                             <div class="w-14 h-14 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500 shrink-0 border border-yellow-500/20">
+                                 <i class="fas fa-bolt text-2xl"></i>
+                             </div>
+                             <div>
+                                 <div class="font-bold text-slate-800 dark:text-white">Celery Workers</div>
+                                 <div class="text-xs text-slate-500 mt-1">Async Processing & Cron Jobs</div>
+                             </div>
                         </div>
-                        
-                        <div class="h-8 w-0.5 bg-slate-300 dark:bg-slate-600"></div>
+                        <div class="glass p-5 rounded-xl border-orange-500/30 flex items-center gap-5 hover:scale-[1.02] transition-transform shadow-sm">
+                             <div class="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 shrink-0 border border-orange-500/20">
+                                 <i class="fas fa-database text-2xl"></i>
+                             </div>
+                             <div class="w-full">
+                                 <div class="font-bold text-slate-800 dark:text-white">Postgres + Redis + S3</div>
+                                 <div class="text-xs text-slate-500 mt-1">Relational, Cache & Static Media</div>
+                             </div>
+                        </div>
+                    </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 w-full">
-                            <div class="glass p-3 rounded-lg text-center shadow-sm">
-                                <div class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Payments</div>
-                                <div class="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center justify-center gap-2">
-                                    <i class="fab fa-stripe text-indigo-500 text-lg"></i> Stripe / Tabby
-                                </div>
-                            </div>
-                            <div class="glass p-3 rounded-lg text-center shadow-sm">
-                                <div class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Feeds</div>
-                                <div class="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center justify-center gap-2">
-                                    <i class="fab fa-google text-red-500"></i> Merchant
-                                </div>
-                            </div>
-                            <div class="glass p-3 rounded-lg text-center shadow-sm">
-                                <div class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Shipping</div>
-                                <div class="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center justify-center gap-2">
-                                    <i class="fas fa-truck text-blue-500"></i> iMile
-                                </div>
-                            </div>
-                        </div>
+                     <div class="flex justify-center mt-4 mb-2"><i class="fas fa-link text-slate-400"></i></div>
+
+                    <div class="glass p-5 rounded-xl border-slate-400/30 w-full text-center shadow-sm">
+                         <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">External Integrations</h3>
+                         <div class="flex flex-wrap justify-center gap-4">
+                             <span class="px-4 py-2 bg-white/60 dark:bg-black/30 rounded-full text-xs font-bold flex items-center gap-2 border border-slate-200 dark:border-white/5 hover:text-indigo-500 transition-colors cursor-default text-slate-700 dark:text-slate-300">
+                                 <i class="fab fa-stripe text-indigo-500 text-sm"></i> Stripe / Tabby
+                             </span>
+                             <span class="px-4 py-2 bg-white/60 dark:bg-black/30 rounded-full text-xs font-bold flex items-center gap-2 border border-slate-200 dark:border-white/5 hover:text-blue-500 transition-colors cursor-default text-slate-700 dark:text-slate-300">
+                                 <i class="fas fa-truck text-blue-500 text-sm"></i> Logistics (iMile)
+                             </span>
+                             <span class="px-4 py-2 bg-white/60 dark:bg-black/30 rounded-full text-xs font-bold flex items-center gap-2 border border-slate-200 dark:border-white/5 hover:text-red-500 transition-colors cursor-default text-slate-700 dark:text-slate-300">
+                                 <i class="fab fa-google text-red-500 text-sm"></i> Merchant Feeds
+                             </span>
+                         </div>
                     </div>
 
                 </div>
@@ -450,7 +448,7 @@
             <h2 class="text-4xl font-bold mb-16 text-center reveal">
                 <span class="text-accent text-2xl font-mono">01.8</span> What I Can Build For You
             </h2>
-            
+
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="glass p-8 rounded-2xl border-t-4 border-blue-500 hover:-translate-y-2 transition-transform reveal flex flex-col">
                     <div class="w-14 h-14 bg-blue-500/10 rounded-lg flex items-center justify-center mb-6 text-blue-500 border border-blue-500/20">
@@ -471,14 +469,14 @@
                     <div class="w-14 h-14 bg-green-500/10 rounded-lg flex items-center justify-center mb-6 text-green-500 border border-green-500/20">
                         <i class="fas fa-cogs text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-4">API Integration</h3>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-4">Advanced Integrations</h3>
                     <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 flex-grow">
-                        Connect your system to the world. I integrate Payment Gateways, Shipping APIs, and AI tools seamlessly.
+                        Expert in building AI-powered backends (OpenAI APIs), and Real-time communications (Live Voice Chat) via WebSockets. Combined with robust Payment Gateways (Stripe, Tabby) and logistics.
                     </p>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400 border-t border-gray-200 dark:border-white/5 pt-4">
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Stripe / Tabby Payments</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Shipping (iMile/Vnline)</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> OpenAI / LLM Agents</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Real-time (Django Channels)</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> OpenAI APIs & Agents</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Payments & Logistics APIs</li>
                     </ul>
                 </div>
 
@@ -603,16 +601,27 @@
                 profile_img: "assets/profile.jpg"
             },
             skills: [
-                { name: "Python", icon: "fab fa-python", color: "text-yellow-500" },
-                { name: "Django", icon: "fas fa-code", color: "text-green-600" },
-                { name: "PostgreSQL", icon: "fas fa-database", color: "text-blue-500" },
-                { name: "Redis", icon: "fas fa-server", color: "text-red-500" },
-                { name: "Celery", icon: "fas fa-tasks", color: "text-green-500" },
-                { name: "Docker", icon: "fab fa-docker", color: "text-blue-600" },
-                { name: "Stripe", icon: "fab fa-stripe", color: "text-purple-500" },
-                { name: "Git", icon: "fab fa-git-alt", color: "text-orange-600" },
-                { name: "Linux", icon: "fab fa-linux", color: "text-slate-500" },
-                { name: "REST API", icon: "fas fa-network-wired", color: "text-pink-500" }
+                // 1. Core & Frameworks
+                { name: "Python", icon: "fab fa-python", color: "text-yellow-500", cat: "Core & Frameworks" },
+                { name: "Django", icon: "fas fa-code", color: "text-green-600", cat: "Core & Frameworks" },
+                { name: "Django REST", icon: "fas fa-network-wired", color: "text-pink-500", cat: "Core & Frameworks" },
+
+                // 2. Data & Async Processing
+                { name: "PostgreSQL", icon: "fas fa-database", color: "text-blue-500", cat: "Data & Async" },
+                { name: "Redis", icon: "fas fa-server", color: "text-red-500", cat: "Data & Async" },
+                { name: "Celery", icon: "fas fa-tasks", color: "text-green-500", cat: "Data & Async" },
+
+                // 3. Cloud & DevOps
+                { name: "Docker", icon: "fab fa-docker", color: "text-blue-600", cat: "Cloud & DevOps" },
+                { name: "Linux", icon: "fab fa-linux", color: "text-slate-500", cat: "Cloud & DevOps" },
+                { name: "Git", icon: "fab fa-git-alt", color: "text-orange-600", cat: "Cloud & DevOps" },
+
+                // 4. Advanced & Integrations
+                { name: "OpenAI API", icon: "fas fa-brain", color: "text-purple-400", cat: "AI & Integrations" },
+                { name: "Django Channels", icon: "fas fa-broadcast-tower", color: "text-cyan-400", cat: "AI & Integrations" },
+                { name: "WebSockets", icon: "fas fa-plug", color: "text-yellow-400", cat: "AI & Integrations" },
+                { name: "Stripe / Tabby", icon: "fab fa-stripe", color: "text-indigo-500", cat: "AI & Integrations" },
+                { name: "Logistics APIs", icon: "fas fa-truck", color: "text-blue-500", cat: "AI & Integrations" }
             ],
             experience: [
                 {
@@ -628,8 +637,8 @@
 					role: "Python Backend Developer",
 					period: "2025 - Present",
 					location: "Remote",
-					desc: "Architected and implemented a robust backend for a large-scale educational platform. Handled complex business logic, transactional integrity, role-based permissions, and performance-critical APIs, ensuring scalability, security, and clean architecture.",
-					tags: ["Django", "Django REST Framework", "PostgreSQL", "Redis"]
+					desc: "Architected the backend for a high-scale Saudi educational platform, integrating AI-driven features. Developed Live Voice Chat and real-time notifications using Django Channels (WebSockets). Integrated OpenAI APIs for automated content assistance and managed performance-critical APIs to ensure a seamless experience for thousands of concurrent users.",
+					tags: ["Django Channels", "OpenAI API", "WebSockets", "Django REST", "PostgreSQL"]
 				},
                 {
                     company: "Freelance",
@@ -650,11 +659,28 @@
             ],
             projects: [
                 {
+                    title: "Qader | Educational Platform",
+                    desc: "The leading smart educational platform in Saudi Arabia. I built a Real-time Live Voice Chat system using WebSockets and integrated OpenAI APIs to automate educational assistance, providing an interactive learning experience for thousands of concurrent students.",
+                    tech: ["Django Channels", "OpenAI API", "WebSockets", "PostgreSQL"],
+                    link: "https://qader.vip/",
+                    image: "assets/qader_logo.png",
+                    impact: "Real-time AI Interaction"
+                },
+                {
                     title: "Wege Platform",
-                    desc: "Wege is a full-featured online store that offers a wide range of fashion products including men's, women's, and children's clothing, along with shoes, bags, and accessories.\n\nBuilt with Django, it combines intelligent automation, multilingual support, and advanced product structuring. The platform automates the transformation of supplier spreadsheets into clean, structured JSON in both Arabic and English. It supports product variations (size/color), generates SEO-friendly titles and descriptions, and connects seamlessly with Google Merchant Center and TikTok Catalog via scheduled product feed generation.\n\nVoice search is powered by Whisper & FastAPI, and background tasks are handled using Celery with retry logic, multithreading, and batching for scalability.",
-                    tech: ["Django", "Celery", "Payment Gateways(Stripe - tabby)","Redis","PostgreSQL","Google Merchant API","Amazon S3","Shipping companies integration(Vnline - imile)"],
+                    desc: "A comprehensive e-commerce platform for the fashion industry. I architected the system to fully automate integrations with Payment Gateways (Stripe, Tabby) and Logistics APIs (iMile, Vnlin). Additionally, I built an SEO engine that automatically generates product feeds for Google and TikTok.",
+                    tech: ["Stripe", "Logistics APIs", "Celery", "Redis"],
                     link: "https://www.wege.ae/en",
-                    image: "assets/wege.webp"
+                    image: "assets/wege.webp",
+                    impact: "Fully Automated Ecosystem"
+                },
+                {
+                    title: "API Creator v2",
+                    desc: "An open-source tool designed for developers to accelerate backend development. It provides a ready-to-use project architecture with built-in security and database configurations, reducing setup time by 70%. This tool reflects my active contribution to the developer community.",
+                    tech: ["Open Source", "Django", "Architecture"],
+                    link: "https://api-creator.netlify.app/",
+                    image: "assets/project-api.png",
+                    impact: "70% Faster Dev Speed"
                 },
                 {
                     title: "WOW SYRIA",
@@ -662,13 +688,6 @@
                     tech: ["DRF", "API", "Mobile"],
                     link: "https://play.google.com/store/apps/details?id=com.Hasan_Hasan.wowsyria_com",
                     image: "assets/project-wowsyria.jpg"
-                },
-                {
-                    title: "API Creator v2",
-                    desc: "API Creator v2 is a Django starter for quickly building API-centric backends. It provides a clean layout for apps/URLs/ migrations, environment configuration, admin, and static/template handling, and can be extended with DRF and Postgres for production",
-                    tech: ["Open Source", "Tooling"],
-                    link: "https://api-creator.netlify.app/",
-                    image: "assets/project-api.png"
                 },
                 {
                     title: "Real Estate API",
@@ -711,32 +730,32 @@
                 { degree: "Bachelor in IT Engineering", school: "Al-Baath University", year: "2019 - 2024 (GPA 84.55%)" }
             ],
             certs: [
-                { 
-                    name: "ICPC ACPC Kickoff", 
+                {
+                    name: "ICPC ACPC Kickoff",
                     issuer: "ICPC Foundation",
-                    date: "June 2021", 
-                    type: "pdf", 
+                    date: "June 2021",
+                    type: "pdf",
                     url: "assets/certs/2022-ICPC ACPC Kickoff-Mr. Ghaith Alali-PLACE.pdf"
                 },
-                { 
-                    name: "ICPC Al-Baath & Hama Contest", 
+                {
+                    name: "ICPC Al-Baath & Hama Contest",
                     issuer: "ICPC Foundation",
-                    date: "August 2021", 
+                    date: "August 2021",
                     type: "pdf",
                     url: "assets/certs/2022-ICPC Al-baath&Hama UC-Mr. Ghaith Alali-PLACE.pdf"
                 },
-                { 
-                    name: "Python Internship", 
+                {
+                    name: "Python Internship",
                     issuer: "CompWallah",
-                    date: "April 2024", 
-                    type: "image", 
+                    date: "April 2024",
+                    type: "image",
                     url: "assets/certs/compwallah.png"
                 },
-                { 
-                    name: "Generative AI in Practice", 
+                {
+                    name: "Generative AI in Practice",
                     issuer: "sololearn",
-                    date: "Feb 2026", 
-                    type: "image", 
+                    date: "Feb 2026",
+                    type: "image",
                     url: "assets/certs/solo_learn.jpg"
                 }
             ]
@@ -744,15 +763,15 @@
 
         // 1. UPDATED THEME LOGIC
         const themes = ['light', 'dark', 'hacker'];
-        
+
         function initTheme() {
             const toggleBtn = document.getElementById('theme-toggle');
             const themeIcon = document.getElementById('theme-icon');
             const html = document.documentElement;
-            
+
             let currentTheme = localStorage.theme || 'dark';
             if (!themes.includes(currentTheme)) currentTheme = 'dark';
-            
+
             function applyTheme(theme) {
                 html.classList.remove('dark', 'hacker');
                 if (theme === 'dark') {
@@ -771,9 +790,7 @@
             applyTheme(currentTheme);
 
             toggleBtn.addEventListener('click', () => {
-                let index = themes.indexOf(currentTheme);
-                index = (index + 1) % themes.length;
-                currentTheme = themes[index];
+                currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
                 applyTheme(currentTheme);
             });
         }
@@ -839,13 +856,13 @@
                 } else {
                     color = '#0369a1'; // light blue
                 }
-                
+
                 cursorHead.style.backgroundColor = color;
                 dots.forEach((dot, index) => {
                     const nextDot = dots[index - 1] || { x: mouseX, y: mouseY };
                     const targetX = index === 0 ? mouseX : nextDot.x;
                     const targetY = index === 0 ? mouseY : nextDot.y;
-                    
+
                     dot.x += (targetX - dot.x) * 0.4;
                     dot.y += (targetY - dot.y) * 0.4;
                     dot.el.style.left = (dot.x - parseFloat(dot.el.style.width)/2) + 'px';
@@ -863,7 +880,7 @@
             if(!canvas) return;
             const ctx = canvas.getContext('2d');
             let width, height;
-            
+
             let particles = [];
             class Particle {
                 constructor() {
@@ -918,29 +935,29 @@
             function animate() {
                 const isHacker = document.documentElement.classList.contains('hacker');
                 const isDark = document.documentElement.classList.contains('dark');
-                
+
                 if (isHacker) {
                     // SLOW MATRIX EFFECT
                     ctx.fillStyle = 'rgba(2, 2, 2, 0.05)'; // Trail
                     ctx.fillRect(0, 0, width, height);
-                    
-                    ctx.fillStyle = '#ef4444'; 
+
+                    ctx.fillStyle = '#ef4444';
                     ctx.font = fontSize + 'px monospace';
-                    
+
                     for(let i = 0; i < matrixDrops.length; i++) {
                         const text = Math.random() > 0.5 ? '1' : '0';
                         const x = i * fontSize;
                         const y = matrixDrops[i] * fontSize;
-                        
+
                         // Faint random opacity for depth
                         ctx.fillStyle = `rgba(239, 68, 68, ${Math.random() * 0.5 + 0.1})`;
                         ctx.fillText(text, x, y);
-                        
+
                         if(y > height && Math.random() > 0.99) {
                             matrixDrops[i] = 0;
                         }
                         // VERY SLOW SPEED (0.35)
-                        matrixDrops[i] += 0.35; 
+                        matrixDrops[i] += 0.35;
                     }
                 } else {
                     // PARTICLES
@@ -990,15 +1007,45 @@
             document.getElementById('link-email').href = `mailto:${data.personal.email}`;
             document.getElementById('contact-btn-main').href = `mailto:${data.personal.email}`;
 
-            // Skills
+            // Skills Rendering
             const skillsContainer = document.getElementById('skills-container');
-            data.skills.forEach(skill => {
-                skillsContainer.innerHTML += `
-                    <div class="glass p-6 rounded-xl flex flex-col items-center gap-3 interactive text-slate-700 dark:text-slate-300">
-                        <i class="${skill.icon} text-4xl ${skill.color}"></i>
-                        <span class="font-bold text-sm tracking-wide">${skill.name}</span>
+            skillsContainer.className = "grid md:grid-cols-2 gap-6 items-start";
+            skillsContainer.innerHTML = '';
+
+            const groups = data.skills.reduce((acc, skill) => {
+                (acc[skill.cat] = acc[skill.cat] || []).push(skill);
+                return acc;
+            }, {});
+
+            const categoryIcons = {
+                "Core & Frameworks": "fas fa-code",
+                "Data & Async": "fas fa-database",
+                "Cloud & DevOps": "fas fa-cloud",
+                "AI & Integrations": "fas fa-robot"
+            };
+
+            Object.keys(groups).forEach(cat => {
+                const catIcon = categoryIcons[cat] || "fas fa-layer-group";
+
+                const groupHtml = `
+                    <div class="glass p-6 md:p-8 rounded-2xl border-t-2 border-accent/20 hover:border-accent/50 transition-colors shadow-sm relative overflow-hidden group h-full flex flex-col">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-all z-0"></div>
+
+                        <h3 class="text-accent font-mono text-[13px] mb-6 uppercase tracking-widest font-bold flex items-center gap-2 relative z-10">
+                            <i class="${catIcon} text-slate-400/50 text-lg"></i> ${cat}
+                        </h3>
+
+                        <div class="flex flex-wrap gap-3 relative z-10 mt-auto">
+                            ${groups[cat].map(skill => `
+                                <div class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 hover:border-accent/40 hover:bg-white dark:hover:bg-slate-800 transition-all cursor-default shadow-sm hover:shadow-md hover:-translate-y-0.5 group/pill">
+                                    <i class="${skill.icon} text-lg ${skill.color} group-hover/pill:scale-110 transition-transform"></i>
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300">${skill.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 `;
+                skillsContainer.innerHTML += groupHtml;
             });
 
             // Experience
@@ -1007,7 +1054,7 @@
                 const isLeft = i % 2 === 0;
                 const flexDir = isLeft ? 'md:flex-row' : 'md:flex-row-reverse';
                 const textAlign = isLeft ? 'md:text-right' : 'md:text-left';
-                
+
                 expContainer.innerHTML += `
                     <div class="flex flex-col ${flexDir} items-center justify-between w-full group reveal">
                         <div class="w-full md:w-[45%] mb-8 md:mb-0 ${textAlign}">
@@ -1024,23 +1071,32 @@
                 `;
             });
 
-            // Projects
+            // Projects Rendering
             const projContainer = document.getElementById('projects-container');
+            projContainer.innerHTML = '';
             data.projects.forEach((proj, index) => {
                 projContainer.innerHTML += `
-                    <div onclick="openProjectModal(${index})" class="glass rounded-xl overflow-hidden group interactive cursor-pointer h-full flex flex-col">
-                        <div class="h-48 overflow-hidden relative shrink-0">
+                    <div onclick="openProjectModal(${index})" class="glass rounded-2xl overflow-hidden group interactive cursor-pointer h-full flex flex-col border border-slate-200/50 dark:border-white/5 hover:border-accent/50 transition-all duration-500 shadow-sm hover:shadow-2xl hover:-translate-y-2">
+                        <div class="h-52 overflow-hidden relative shrink-0">
                             <img src="${proj.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-slate-900/40 group-hover:bg-transparent transition-colors"></div>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-accent transition-colors">${proj.title}</h3>
-                                <span class="text-slate-400 hover:text-accent"><i class="fas fa-expand-alt"></i></span>
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-accent/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg uppercase tracking-tighter">
+                                    <i class="fas fa-chart-line mr-1"></i> ${proj.impact || 'Featured'}
+                                </span>
                             </div>
-                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-3">${proj.desc}</p>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity"></div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow bg-white/5 dark:bg-black/20">
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 group-hover:text-accent transition-colors flex justify-between items-center">
+                                ${proj.title}
+                                <i class="fas fa-arrow-right text-xs -rotate-45 group-hover:rotate-0 transition-transform text-accent"></i>
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-6 line-clamp-3 leading-relaxed">
+                                ${proj.desc}
+                            </p>
                             <div class="flex flex-wrap gap-2 mt-auto">
-                                ${proj.tech.map(t => `<span class="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded">#${t}</span>`).join('')}
+                                ${proj.tech.slice(0, 3).map(t => `<span class="text-[10px] font-bold text-accent bg-accent/10 border border-accent/20 px-2 py-1 rounded-md uppercase">#${t}</span>`).join('')}
+                                ${proj.tech.length > 3 ? `<span class="text-[10px] font-bold text-slate-400 px-1">+${proj.tech.length - 3}</span>` : ''}
                             </div>
                         </div>
                     </div>
@@ -1093,19 +1149,19 @@
             document.getElementById('modal-desc').textContent = project.desc;
             document.getElementById('modal-link').href = project.link;
             const tagsContainer = document.getElementById('modal-tags');
-            tagsContainer.innerHTML = project.tech.map(t => 
+            tagsContainer.innerHTML = project.tech.map(t =>
                 `<span class="text-xs font-bold text-white bg-white/20 px-2 py-1 rounded backdrop-blur-sm">#${t}</span>`
             ).join('');
             modal.classList.remove('hidden-modal'); modal.classList.add('flex-modal');
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             const modal = document.getElementById('project-modal');
             modal.classList.remove('flex-modal'); modal.classList.add('hidden-modal');
-            document.body.style.overflow = ''; 
+            document.body.style.overflow = '';
         }
-		
+
         function openCertModal(index) {
             const cert = data.certs[index];
             const modal = document.getElementById('cert-modal');
@@ -1119,8 +1175,8 @@
 
             iframe.classList.add('hidden'); img.classList.add('hidden'); fallback.classList.add('hidden');
 
-            if (cert.type === 'pdf') { iframe.src = cert.url; iframe.classList.remove('hidden'); } 
-            else if (cert.type === 'image') { img.src = cert.url; img.classList.remove('hidden'); } 
+            if (cert.type === 'pdf') { iframe.src = cert.url; iframe.classList.remove('hidden'); }
+            else if (cert.type === 'image') { img.src = cert.url; img.classList.remove('hidden'); }
             else { extLink.href = cert.url; fallback.classList.remove('hidden'); }
 
             modal.classList.remove('hidden-modal'); modal.classList.add('flex-modal');
@@ -1158,7 +1214,7 @@
             });
             const commands = {
                 help: "Available commands: <span class='text-white'>whoami, skills, projects, architecture, contact, clear, exit</span>",
-                whoami: "User: Ghaith Alali\nRole: Backend Architect\nLevel: 24\nStatus: Online.",
+                whoami: "User: Ghaith Alali\nRole: Backend Architect (AI & Real-time Systems)\nLevel: 24\nStatus: Online.",
                 skills: () => data.skills.map(s => `<span class="${s.color}">${s.name}</span>`).join(', '),
                 projects: () => data.projects.map(p => `• <a href="${p.link}" target="_blank" class="underline hover:text-white">${p.title}</a>`).join('\n'),
                 architecture: () => `<span class="text-accent">Core:</span> Django REST Framework<br><span class="text-accent">Async:</span> Celery + Redis`,
@@ -1221,7 +1277,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             initTheme(); renderContent(); initMobileMenu(); initCursor();
-            initCanvas(); initTypewriter(); initScrollAnimations(); initTerminal(); 
+            initCanvas(); initTypewriter(); initScrollAnimations(); initTerminal();
         });
     </script>
 </body>
