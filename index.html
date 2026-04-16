@@ -225,7 +225,7 @@
             z-index: 10;
         }
         
-        .certSwiper { padding: 40px 0 !important; }
+        .certSwiper { padding-top: 15px !important; padding-bottom: 40px !important; }
 
         @media (max-width: 768px) {
             .swiper-slide-active .glass {
@@ -549,7 +549,7 @@
     </section>
 
     <section class="py-32 px-4 relative z-10">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
             
             <div class="reveal">
                 <h3 class="text-2xl font-bold mb-10 flex items-center gap-3 text-slate-800 dark:text-white">
@@ -559,10 +559,10 @@
             </div>
 
             <div class="reveal overflow-hidden">
-                <h3 class="text-2xl font-bold mb-6 flex items-center gap-3 text-slate-800 dark:text-white">
+                <h3 class="text-2xl font-bold mb-10 flex items-center gap-3 text-slate-800 dark:text-white">
                     <i class="fas fa-certificate text-accent bg-accent/10 p-3 rounded-xl"></i> Certificates
                 </h3>
-                <div class="swiper certSwiper overflow-visible pb-10">
+                <div class="swiper certSwiper overflow-visible pb-10 md:-mt-4">
                     <div id="certificates-container" class="swiper-wrapper">
                         </div>
                     
@@ -1199,7 +1199,7 @@
 
                 certContainer.innerHTML += `
                     <div class="swiper-slide !h-auto">
-                        <div onclick="openCertModal(${index})" class="glass p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-white/5 flex flex-col items-center text-center transition-all duration-500 cursor-pointer group shadow-xl h-full min-h-[320px] relative overflow-hidden">
+                        <div onclick="openCertModal(${index})" class="glass p-5 md:p-8 rounded-3xl border border-slate-200 dark:border-white/5 flex flex-col items-center text-center transition-all duration-500 cursor-pointer group shadow-xl h-full min-h-[260px] md:min-h-[320px] relative overflow-hidden">
                             <div class="absolute inset-0 bg-accent/5 opacity-20 md:opacity-0 md:group-hover:opacity-100 transition-opacity animate-pulse md:animate-none"></div>
 
                             <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl ${bgGlow} flex items-center justify-center ${colorClass} mb-4 group-hover:scale-110 transition-transform shadow-inner relative z-10">
@@ -1243,7 +1243,7 @@
                     prevEl: ".swiper-button-prev-custom",
                 },
                 breakpoints: {
-                    320: { slidesPerView: 1.2, spaceBetween: 20 },
+                    320: { slidesPerView: 1.6, spaceBetween: 15 }, 
                     768: { slidesPerView: 2, spaceBetween: 30 },
                     1024: { slidesPerView: 3, spaceBetween: 50 }
                 }
