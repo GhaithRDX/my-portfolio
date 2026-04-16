@@ -8,6 +8,8 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -172,6 +174,12 @@
         html.hacker ::-webkit-scrollbar-thumb { background: #450a0a; } /* Dark Red Scrollbar */
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
 
+        /* Custom Scrollbar for Certificates List */
+        .cert-scroll::-webkit-scrollbar { width: 4px; }
+        .cert-scroll::-webkit-scrollbar-track { background: transparent; }
+        .cert-scroll::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 4px; }
+        .cert-scroll:hover::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.5); }
+
         /* 4. TIMELINE */
         .timeline-line {
 			position: absolute; left: 16px; top: 140px; width: 2px;
@@ -204,6 +212,21 @@
             body { cursor: auto; }
             .cursor-trail, .trail-dot { display: none; }
         }
+
+        .certSwiper .swiper-slide {
+            transition: all 0.5s ease;
+            opacity: 0.4; 
+            transform: scale(0.85);
+        }
+
+        .certSwiper .swiper-slide-active {
+            opacity: 1;
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .certSwiper { padding: 40px 0 !important; }
+
     </style>
 </head>
 <body class="bg-lightBg text-slate-800 dark:bg-darkBg dark:text-slate-200 antialiased selection:bg-accent selection:text-white">
@@ -518,16 +541,35 @@
         </div>
     </section>
 
-    <section class="py-32 px-4">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16">
+    <section class="py-32 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
             <div class="reveal">
-                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3"><i class="fas fa-graduation-cap text-accent"></i> Education</h3>
-                <div id="education-container" class="space-y-6"></div>
+                <h3 class="text-2xl font-bold mb-10 flex items-center gap-3 text-slate-800 dark:text-white">
+                    <i class="fas fa-graduation-cap text-accent bg-accent/10 p-3 rounded-xl"></i> Education
+                </h3>
+                <div id="education-container" class="space-y-0"></div>
             </div>
-            <div class="reveal">
-                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3"><i class="fas fa-certificate text-accent"></i> Certificates</h3>
-                <div id="certificates-container" class="space-y-6"></div>
+
+            <div class="reveal overflow-hidden">
+                <h3 class="text-2xl font-bold mb-6 flex items-center gap-3 text-slate-800 dark:text-white">
+                    <i class="fas fa-certificate text-accent bg-accent/10 p-3 rounded-xl"></i> Certificates
+                </h3>
+                <div class="swiper certSwiper overflow-visible pb-10">
+                    <div id="certificates-container" class="swiper-wrapper">
+                        </div>
+                    
+                    <div class="flex justify-center gap-4 mt-4">
+                        <div class="swiper-button-prev-custom cursor-pointer w-10 h-10 rounded-full border border-accent/30 flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="swiper-button-next-custom cursor-pointer w-10 h-10 rounded-full border border-accent/30 flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </section>
 
@@ -752,12 +794,26 @@
                     url: "assets/certs/compwallah.png"
                 },
                 {
-                    name: "Generative AI in Practice",
-                    issuer: "sololearn",
+                    name: "AI-Powered Product & UX",
+                    issuer: "Sololearn",
                     date: "Feb 2026",
                     type: "image",
-                    url: "assets/certs/solo_learn.jpg"
-                }
+                    url: "assets/certs/AI_powered_product_UX.jpg"
+                },
+                {
+                    name: "Generative AI in Practice",
+                    issuer: "Sololearn",
+                    date: "Feb 2026",
+                    type: "image",
+                    url: "assets/certs/generative_ai_in_practive.png"
+                },
+                {
+                    name: "Prompt Engineering",
+                    issuer: "Sololearn",
+                    date: "Feb 2026",
+                    type: "image",
+                    url: "assets/certs/prompt_engineering.jpg"
+                },
             ]
         };
 
@@ -1103,40 +1159,82 @@
                 `;
             });
 
-            // Education & Certs
             const eduContainer = document.getElementById('education-container');
+            eduContainer.innerHTML = '<div class="relative border-l border-slate-300 dark:border-slate-700 ml-4 space-y-10 pb-4"></div>';
+            const timelineWrapper = eduContainer.querySelector('div');
+            
             data.education.forEach(edu => {
-                eduContainer.innerHTML += `
-                    <div class="glass p-6 rounded-lg border-l-4 border-yellow-500 hover:bg-white/50 dark:hover:bg-white/5 transition-colors">
-                        <h4 class="text-lg font-bold text-slate-800 dark:text-white">${edu.degree}</h4>
-                        <p class="text-slate-500 text-sm">${edu.school}</p>
-                        <p class="text-xs font-bold text-yellow-600 dark:text-yellow-500 mt-2">${edu.year}</p>
+                timelineWrapper.innerHTML += `
+                    <div class="relative pl-8 group reveal">
+                        <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-600 group-hover:bg-accent group-hover:scale-150 transition-all duration-300 shadow-[0_0_10px_rgba(14,165,233,0)] group-hover:shadow-[0_0_10px_var(--glow-color)]"></div>
+                        
+                        <h4 class="text-xl font-bold text-slate-800 dark:text-white group-hover:text-accent transition-colors">${edu.degree}</h4>
+                        <p class="text-slate-500 font-mono text-sm mt-2">${edu.school}</p>
+                        <div class="inline-flex items-center gap-2 mt-4 px-4 py-1.5 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-600 dark:text-slate-400 shadow-sm">
+                            <i class="far fa-calendar-alt"></i> ${edu.year}
+                        </div>
                     </div>
                 `;
             });
 
             const certContainer = document.getElementById('certificates-container');
+            certContainer.innerHTML = ''; 
             data.certs.forEach((cert, index) => {
+                let iconClass = "fas fa-award", colorClass = "text-green-500", bgGlow = "bg-green-500/20";
+                const nameLower = cert.name.toLowerCase();
+                if (nameLower.includes("ai") || nameLower.includes("prompt")) {
+                    iconClass = "fas fa-brain"; colorClass = "text-purple-500"; bgGlow = "bg-purple-500/20";
+                } else if (nameLower.includes("python")) {
+                    iconClass = "fab fa-python"; colorClass = "text-yellow-500"; bgGlow = "bg-yellow-500/20";
+                } else if (nameLower.includes("icpc")) {
+                    iconClass = "fas fa-trophy"; colorClass = "text-orange-500"; bgGlow = "bg-orange-500/20";
+                }
+
                 certContainer.innerHTML += `
-                    <div onclick="openCertModal(${index})" class="glass p-6 rounded-lg border-l-4 border-green-500 hover:bg-white/50 dark:hover:bg-white/5 transition-all cursor-pointer group hover:scale-[1.02]">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 group-hover:bg-green-500 group-hover:text-white transition-colors">
-                                <i class="fas fa-award text-2xl"></i>
+                    <div class="swiper-slide !h-auto">
+                        <div onclick="openCertModal(${index})" class="glass p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-white/5 flex flex-col items-center text-center transition-all duration-500 cursor-pointer group shadow-xl h-full min-h-[320px]">
+                            <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl ${bgGlow} flex items-center justify-center ${colorClass} mb-4 group-hover:scale-110 transition-transform shadow-inner">
+                                <i class="${iconClass} text-2xl md:text-3xl"></i>
                             </div>
-                            <div>
-                                <h4 class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-green-500 transition-colors">${cert.name}</h4>
-                                <div class="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
-                                    <span>${cert.issuer}</span>
-                                    <span class="w-1 h-1 rounded-full bg-slate-400"></span>
-                                    <span class="text-green-600 dark:text-green-500">${cert.date}</span>
-                                </div>
-                            </div>
-                            <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-slate-400">
-                                <i class="fas fa-expand-alt"></i>
+                            <h4 class="text-base md:text-lg font-bold text-slate-800 dark:text-white mb-2 leading-tight line-clamp-3">${cert.name}</h4>
+                            <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-4">${cert.issuer}</p>
+                            
+                            <div class="mt-auto pt-4 text-accent text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1 w-full border-t border-slate-200/50 dark:border-white/5">
+                                View Full <i class="fas fa-expand-alt"></i>
                             </div>
                         </div>
                     </div>
                 `;
+            });
+
+            // تفعيل الـ Slider بتأثير الـ Coverflow والحركة التلقائية اللانهائية
+            new Swiper(".certSwiper", {
+                effect: "coverflow",
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                initialSlide: 1,
+                loop: true, // تفعيل الدوران اللانهائي
+                autoplay: {
+                    delay: 2500, // المدة بالملي ثانية (2.5 ثانية بين كل تقليبة)
+                    disableOnInteraction: false, // استمرار الحركة حتى لو تدخل المستخدم
+                },
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 2.5,
+                    slideShadows: false,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next-custom",
+                    prevEl: ".swiper-button-prev-custom",
+                },
+                breakpoints: {
+                    320: { slidesPerView: 1.2, spaceBetween: 20 },
+                    768: { slidesPerView: 2, spaceBetween: 30 },
+                    1024: { slidesPerView: 3, spaceBetween: 50 }
+                }
             });
         }
 
