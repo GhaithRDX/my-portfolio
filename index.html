@@ -2,11 +2,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghaith Alali | Backend Architect</title>
+    <title>Ghaith Alali | Backend Developer</title>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <meta name="theme-color" content="#0A0D12">
-    <meta name="description" content="Ghaith Alali — Backend Architect specializing in scalable Python/Django systems, real-time WebSocket infrastructure, AI integrations, and e-commerce backends.">
+    <meta name="description" content="Ghaith Alali — Backend Developer specializing in scalable Python/Django systems, real-time WebSocket infrastructure, AI integrations, and e-commerce backends.">
     <link rel="canonical" href="https://ghaith.novaxera.cloud/">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,14 +16,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Ghaith Alali | Backend Architect">
+    <meta property="og:title" content="Ghaith Alali | Backend Developer">
     <meta property="og:description" content="Specializing in scalable Python/Django systems and e-commerce architecture.">
-    <meta property="og:image" content="assets/banner.png">
+    <meta property="og:image" content="https://ghaith.novaxera.cloud/assets/banner.png">
     <meta property="og:url" content="https://ghaith.novaxera.cloud/">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ghaith Alali | Backend Architect">
+    <meta name="twitter:title" content="Ghaith Alali | Backend Developer">
     <meta name="twitter:description" content="Specializing in scalable Python/Django systems, real-time infrastructure, and AI-powered backends.">
-    <meta name="twitter:image" content="assets/profile.jpg">
+    <meta name="twitter:image" content="https://ghaith.novaxera.cloud/assets/profile.jpg">
 
     <script>
         tailwind.config = {
@@ -128,6 +128,13 @@
 
         .cert-scroll::-webkit-scrollbar { width: 4px; }
 
+        .certSwiper .swiper-slide { transition: all 0.5s ease; opacity: 0.4; transform: scale(0.88); }
+        .certSwiper .swiper-slide-active { opacity: 1; transform: scale(1.05); z-index: 10; }
+        .certSwiper { padding-top: 15px !important; padding-bottom: 40px !important; }
+        @media (max-width: 768px) {
+            .swiper-slide-active .glass { border-color: var(--accent); }
+        }
+
         /* TIMELINE */
         .timeline-line {
             position: absolute; left: 16px; top: 140px; width: 2px;
@@ -164,12 +171,6 @@
         #mobile-menu.closed { transform: translateX(100%); opacity: 0; pointer-events: none; }
         #mobile-menu.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
 
-        .certSwiper .swiper-slide { transition: all 0.5s ease; opacity: 0.4; transform: scale(0.88); }
-        .certSwiper .swiper-slide-active { opacity: 1; transform: scale(1.05); z-index: 10; }
-        .certSwiper { padding-top: 15px !important; padding-bottom: 40px !important; }
-        @media (max-width: 768px) {
-            .swiper-slide-active .glass { border-color: var(--accent); }
-        }
 
         :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     </style>
@@ -229,7 +230,7 @@
                 <img id="hero-image" src="" alt="Profile photo" class="w-28 h-28 md:w-44 md:h-44 rounded-full object-cover border-2 border-black/10 dark:border-white/10 shadow-xl select-none block">
             </div>
 
-            <p class="eyebrow mb-4 hero-in" style="animation-delay:.2s">Backend Architect</p>
+            <p class="eyebrow mb-4 hero-in" style="animation-delay:.2s">Backend Developer</p>
 
             <h1 class="font-display text-4xl md:text-7xl font-bold mb-5 tracking-tight hero-in" style="animation-delay:.3s" id="hero-name">Ghaith Alali</h1>
 
@@ -521,7 +522,7 @@
     </section>
 
     <footer class="py-8 text-center text-slate-500 font-mono text-sm border-t border-black/5 dark:border-white/5">
-        <p>Engineered by Ghaith Alali © 2025</p>
+        <p>Engineered by Ghaith Alali © <span id="footer-year">2025</span></p>
     </footer>
 
     <div id="project-modal" class="hidden-modal fixed inset-0 z-[100] items-center justify-center p-4">
@@ -615,11 +616,11 @@
                 },
                 {
                     company: "Qader",
-                    role: "Python Backend Developer",
+                    role: "Python Backend Developer (Part-time)",
                     period: "2025 - Present",
-                    location: "Remote",
-                    desc: "Architected the backend for a high-scale Saudi educational platform, integrating AI-driven features. Developed Live Voice Chat and real-time notifications using Django Channels (WebSockets). Integrated OpenAI APIs for automated content assistance and managed performance-critical APIs to ensure a seamless experience for thousands of concurrent users.",
-                    tags: ["Django Channels", "OpenAI API", "WebSockets", "Django REST", "PostgreSQL"]
+                    location: "Remote · Part-time / Contract",
+                    desc: "Part-time engagement alongside my full-time role at WEGE. Built the backend for a high-scale Saudi educational platform, integrating AI-driven features. Developed Live Voice Chat and real-time notifications using Django Channels (WebSockets). Integrated OpenAI APIs for automated content assistance and worked on performance-critical APIs serving thousands of concurrent users.",
+                    tags: ["Django Channels", "OpenAI API", "WebSockets", "Django REST", "Part-time"]
                 },
                 {
                     company: "Freelance",
@@ -674,7 +675,7 @@
                     title: "Real Estate API",
                     desc: "A Django REST Framework API to manage property listings (rent/sale). Features include full CRUD operations and advanced filtering to find specific houses.",
                     tech: ["DRF", "Django", "Filtering"],
-                    link: "https://github.com/GhaithRDX",
+                    link: "https://github.com/GhaithRDX/R.F.Houses",
                     image: "assets/project-realestate.webp"
                 },
                 {
@@ -951,13 +952,13 @@
 
                 certContainer.innerHTML += `
                     <div class="swiper-slide !h-auto">
-                        <div onclick="openCertModal(${index})" class="glass p-5 md:p-8 rounded-2xl flex flex-col items-center text-center cursor-pointer group h-full min-h-[260px] md:min-h-[320px] relative overflow-hidden">
-                            <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl ${bgGlow} flex items-center justify-center ${colorClass} mb-4 relative z-10">
-                                <i class="${iconClass} text-2xl md:text-3xl"></i>
+                        <div onclick="openCertModal(${index})" class="glass p-4 md:p-6 rounded-2xl flex flex-col items-center text-center cursor-pointer group h-full min-h-[190px] md:min-h-[220px] relative overflow-hidden">
+                            <div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl ${bgGlow} flex items-center justify-center ${colorClass} mb-3 relative z-10">
+                                <i class="${iconClass} text-xl md:text-2xl"></i>
                             </div>
-                            <h4 class="text-base md:text-lg font-display font-bold text-slate-800 dark:text-white mb-2 leading-tight line-clamp-3 relative z-10">${cert.name}</h4>
-                            <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-4 relative z-10">${cert.issuer}</p>
-                            <div class="mt-auto pt-4 text-accent text-[10px] md:text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 w-full border-t border-black/5 dark:border-white/5 relative z-10">
+                            <h4 class="text-sm md:text-base font-display font-bold text-slate-800 dark:text-white mb-1.5 leading-tight line-clamp-2 relative z-10">${cert.name}</h4>
+                            <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-3 relative z-10">${cert.issuer}</p>
+                            <div class="mt-auto pt-3 text-accent text-[10px] md:text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 w-full border-t border-black/5 dark:border-white/5 relative z-10">
                                 <span class="md:hidden">Tap to view</span>
                                 <span class="hidden md:inline">View Full</span>
                                 <i class="fas fa-expand-alt"></i>
@@ -1136,6 +1137,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             initTheme(); renderContent(); initMobileMenu();
             initTypewriter(); initScrollAnimations(); initContactForm();
+            const footerYear = document.getElementById('footer-year');
+            if (footerYear) footerYear.textContent = new Date().getFullYear();
         });
     </script>
 </body>
